@@ -10,6 +10,8 @@
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
   <application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="Food_maui" android:usesCleartextTraffic="true" android:debuggable="true" android:name="crc64c3fa693b5ab7d5c6.MainApplication" android:extractNativeLibs="true">
     <activity android:name=".Droid.WebAuthenticationCallbackActivity" android:exported="true" android:noHistory="true" android:launchMode="singleTop">
       <intent-filter>
@@ -28,6 +30,13 @@
         <data android:scheme="com.business.foodmaui" />
       </intent-filter>
     </activity>
+    <activity android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:theme="@style/Maui.SplashTheme" android:name="crc649a6341487f512576.MainActivity" android:exported="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter>
+    </activity>
+    <receiver android:enabled="true" android:exported="false" android:name="crc649a6341487f512576.NotificationReceiver" />
     <activity android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:launchMode="singleTop" android:theme="@style/Maui.SplashTheme" android:name="crc64c3fa693b5ab7d5c6.MainActivity" android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />

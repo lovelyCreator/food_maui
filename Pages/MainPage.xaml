@@ -188,6 +188,14 @@
                 Aspect="AspectFill" 
                 WidthRequest="300" 
                 HeightRequest="200" />
+                
+            <!-- Test Notification Button -->
+            <Button 
+                Text="Test Notification" 
+                BackgroundColor="#673AB7" 
+                TextColor="White" 
+                Margin="0,20,0,0"
+                Clicked="OnTestNotificationClicked" />
         </VerticalStackLayout>
 
         <!-- Footer -->

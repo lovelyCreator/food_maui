@@ -2,6 +2,7 @@
 using Food_maui.Models;
 using Food_maui.PageModels;
 using Food_maui.Services;
+using LocalNotificationDemo.Platforms.Android;
 using Microsoft.Maui.Controls;
 using System;
 
@@ -32,5 +33,25 @@ public partial class MainPage : ContentPage
         {
             Console.WriteLine("UserName not found in service.");
         }
+    }
+
+    private void OnTestNotificationClicked(object sender, EventArgs e)
+    {
+        TestRepeatingNotification();
+    }
+
+
+    private void TestNotification()
+    {
+        var notificationService = new NotificationManagerService();
+        notificationService.ShowNotification("Test Title", "This is a test notification.");
+        Console.WriteLine($"ShowNotification: Notification displayed with title:  and message: ");
+    }
+
+    private void TestRepeatingNotification()
+    {
+        var notificationService = new NotificationManagerService();
+        notificationService.ScheduleRepeatingNotification("Repeating Title", "This notification repeats every 2 minutes.", 2);
+        Console.WriteLine($"ScheduleRepeatingNotification: Scheduled notification with title and message to repeat every minutes.");
     }
 }
