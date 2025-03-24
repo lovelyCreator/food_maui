@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.TextInputLayout;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:pageModel="clr-namespace:Food_maui.PageModels"
+             x:DataType="pageModel:LoginPageModel"
+             x:Class="Food_maui.Pages.LoginPage"
+             BackgroundColor="White"
+             Title="Login"
+             Shell.NavBarIsVisible="False">
+
+    <!-- Ensure BindingContext is set in the code-behind -->
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto"
+          ColumnDefinitions="*,Auto,*"
+          Padding="{StaticResource LayoutPadding}">
+
+        <!-- Logo -->
+        <Image Source="halal_logo.png" Grid.Row="0" Grid.ColumnSpan="3" HorizontalOptions="Center" Margin="0,20,0,10" HeightRequest="150"/>
+
+        <!-- Business Login Title -->
+        <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="3" HorizontalOptions="Center" Margin="0,20,0,20">
+            <BoxView HeightRequest="1" BackgroundColor="#1A000000" WidthRequest="350"/>
+
+            <Label Text="Business Login"
+           HorizontalOptions="Center"
+           FontSize="Title"
+           TextColor="Black"
+           Margin="0,10,0,10" />
+
+            <BoxView HeightRequest="1" BackgroundColor="#1A000000" WidthRequest="350"/>
+        </VerticalStackLayout>
+
+
+        <!-- Username -->
+        <!-- <Label Text="Username" HorizontalOptions="Center" FontSize="Body" TextColor="Black" /> -->
+        <sf:SfTextInputLayout Hint="Email address" Grid.Row="2" Grid.Column="1" HeightRequest="80" WidthRequest="350" >
+            <Entry Text="{Binding Username}" Keyboard="Email" />
+        </sf:SfTextInputLayout>
+
+        <!-- Password -->
+        <sf:SfTextInputLayout Hint="Password" Grid.Row="3" Grid.Column="1" HeightRequest="80">
+            <Entry IsPassword="True" Text="{Binding Password}" />
+        </sf:SfTextInputLayout>
+
+        <!-- Remember Me -->
+        <HorizontalStackLayout Grid.Row="4" Grid.Column="1" HorizontalOptions="Start">
+            <CheckBox IsChecked="{Binding RememberMe}" Color="Black"/>
+            <Label Text="Remember Me" VerticalOptions="Center" TextColor="Black"/>
+        </HorizontalStackLayout>
+
+        <!-- Sign In Button -->
+        <Button Text="SIGN IN" Grid.Row="5" Grid.Column="1" Command="{Binding SignInCommand}"
+                BackgroundColor="#00A7C6" TextColor="White" CornerRadius="5" Padding="30,10"/>
+
+        <!-- Register New Business Button -->
+        <Button Text="Register New Business" Grid.Row="6" Grid.Column="1" Command="{Binding RegisterNewBusinessCommand}"
+                TextColor="Gray" BackgroundColor="Transparent" Padding="30,10" BorderColor="Black" BorderWidth="1" Margin="0, 20, 0, 0"/>
+
+        <!-- Sign In with Google Button -->
+        <Button Text="Sign In with Google" Grid.Row="7" Grid.Column="1" Command="{Binding SignInWithGoogleCommand}"
+                TextColor="#3ecf8e" BackgroundColor="Transparent" Padding="30,10" BorderColor="#3ecf8e" BorderWidth="1" Margin="0, 20, 0, 0"/>
+    </Grid>
+</ContentPage>
