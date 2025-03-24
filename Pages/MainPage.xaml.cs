@@ -24,9 +24,9 @@ public partial class MainPage : ContentPage
         base.OnAppearing();
 
         // Access user metadata
-        if (!string.IsNullOrEmpty(_userMetadataService.UserName))
+        if (!string.IsNullOrEmpty(_userMetadataService.UserID))
         {
-            Console.WriteLine($"UserName from service: {_userMetadataService.UserName}");
+            Console.WriteLine($"UserName from service: {_userMetadataService.UserID}");
         }
         else
         {

@@ -1,3 +1,4 @@
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Food_maui.Models;
@@ -57,6 +58,32 @@ namespace Food_maui.PageModels
         {
             var uri = new Uri("https://www.iSofware.com");
             await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+        }
+
+        public class UserData
+        {
+            public int? locationID { get; set; }
+            public string? restaurant { get; set; }
+            public string? tP_Status { get; set; }
+            public string? pickUpBy { get; set; }
+            public string? pickUpByCustomerStatus { get; set; }
+            public string? driverName { get; set; }
+            public int? salesOrderID { get; set; }
+            public int? invoiceAmount { get; set; }
+            public string? customerName { get; set; }
+            public string? Pending { get; set; }
+            public string? delivery_Status { get; set; }
+            public string? dateOrder { get; set; }
+            public string? orderItems { get; set; }
+            public int? customerID { get; set; }
+            public string? orderType { get; set; }
+            public string? destinationAddress { get; set; }
+            public bool? pickUpByCustomer { get; set; }
+            public string? schedulePickUpTime { get; set; }
+            public int? originalInvoiceAmount { get; set; }
+            public int? originalTax { get; set; }
+            public bool? displayCompleteOrderBtn { get; set; }
+            public string? week_Day { get; set; }
         }
     }
 }

@@ -33,13 +33,13 @@
 
         <!-- Username -->
         <!-- <Label Text="Username" HorizontalOptions="Center" FontSize="Body" TextColor="Black" /> -->
-        <sf:SfTextInputLayout Hint="Email address" Grid.Row="2" Grid.Column="1" HeightRequest="80" WidthRequest="350" >
-            <Entry Text="{Binding Username}" Keyboard="Email" />
+        <sf:SfTextInputLayout Hint="Email address" Grid.Row="2" Grid.Column="1" HeightRequest="80" WidthRequest="350" Padding="0,0,0,0" >
+            <Entry Text="{Binding Username}" Keyboard="Email" VerticalOptions="CenterAndExpand" HeightRequest="60" Margin="10" />
         </sf:SfTextInputLayout>
 
         <!-- Password -->
         <sf:SfTextInputLayout Hint="Password" Grid.Row="3" Grid.Column="1" HeightRequest="80">
-            <Entry IsPassword="True" Text="{Binding Password}" />
+            <Entry IsPassword="True" Text="{Binding Password}" VerticalOptions="Fill" HeightRequest="60" Margin="10" />
         </sf:SfTextInputLayout>
 
         <!-- Remember Me -->

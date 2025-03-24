@@ -11,6 +11,7 @@ namespace Food_maui
 
         public static IAuthenticationService? AuthenticationService { get; internal set; }
         public static IModalErrorHandler? ErrorHandler { get; internal set; }
+        public static UserMetadataService UserMetadataService { get; internal set; }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {

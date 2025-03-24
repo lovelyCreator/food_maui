@@ -47,13 +47,28 @@ namespace Food_maui.PageModels
                 double screenWidth = DeviceDisplay.Current.MainDisplayInfo.Width;
                 double elementWidth = 50;
                 HorizontalLength = (screenWidth - elementWidth) / 2;
-                System.Console.WriteLine($"HorizontalLength: {HorizontalLength}");
+                System.Console.WriteLine($"HorizontalLength: {_userMetadataService}");
             }
             else
             {
                 HorizontalLength = 0; // Default value
                 System.Console.WriteLine("DeviceDisplay or MainDisplayInfo is null.");
             }
+
+            // Load saved credentials if RememberMe is enabled
+            MainThread.BeginInvokeOnMainThread(async () =>
+            {
+                await _userMetadataService.LoadRememberMeDataAsync();
+                if (_userMetadataService.RememberMe)
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        Username = _userMetadataService.UserID ?? string.Empty;
+                        Password = _userMetadataService.Password ?? string.Empty;
+                        RememberMe = true;
+                    });
+                }
+            });
         }
 
         public LoginPageModel(IAuthenticationService? authenticationService, IModalErrorHandler? errorHandler)
@@ -120,70 +135,55 @@ namespace Food_maui.PageModels
 
                 string json = JsonSerializer.Serialize(loginData);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                System.Console.WriteLine($"Content: {await content.ReadAsStringAsync()}"); // Log the actual content
+                System.Console.WriteLine($"Content: {await content.ReadAsStringAsync()}");
 
                 try
                 {
                     using var client = new HttpClient();
                     var response = await client.PostAsync("http://99.89.32.196/api/Buisness/BuisnessLogin", content);
 
-                    System.Console.WriteLine($"Response: {response}");
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = await response.Content.ReadAsStringAsync();
-                        System.Console.WriteLine($"Response of Login: {responseData}");
-
-                        var options = new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true
-                        };
+                        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                         var result = JsonSerializer.Deserialize<LoginResponse>(responseData, options);
 
-                        // Log the entire result object
-                        System.Console.WriteLine($"Deserialized Result: {JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true })}");
-
-                        if (result?.ErrorData != null && result.ErrorData.Count >= 0)
-                        {
-                        System.Console.WriteLine("Error");
-                            var error = result.ErrorData.FirstOrDefault();
-                            var errorMessage = error?.ErrorValue ?? "Invalid username or password.";
-                            await HandleErrorSafely(errorMessage);
-                            return;
-                        }
                         if (result?.UsersData != null && result.UsersData.Count > 0)
                         {
-                            // Access the first user data
                             var userData = result.UsersData.FirstOrDefault();
-
-                            // Log the user data for debugging
-                            System.Console.WriteLine($"UserName: {userData?.UserName}");
-                            System.Console.WriteLine($"UserID: {userData?.UserID}");
-                            System.Console.WriteLine($"RoleName: {userData?.RoleName}");
 
                             if (userData != null && !string.IsNullOrEmpty(userData.UserID))
                             {
-                                // Save user metadata to the shared service
+                                // Save all response data to UserMetadataService
                                 if (_userMetadataService != null)
                                 {
-                                    System.Console.WriteLine($"UserID: {userData.UserID}");
-                                    // Save user metadata to the shared service
+                                    Console.WriteLine("LoginDataSave");
                                     _userMetadataService.UserName = userData.UserName;
                                     _userMetadataService.UserID = userData.UserID;
+                                    _userMetadataService.RoleName = userData.RoleName;
+                                    _userMetadataService.Restaurant = userData.Restaurant;
+                                    _userMetadataService.RestaurantType = userData.RestaurantType;
+                                    _userMetadataService.BusinessOwner = userData.BusinessOwner;
+                                    _userMetadataService.TaxPercentage = userData.TaxPercentage;
+                                    _userMetadataService.Zip = userData.Zip;
+                                    _userMetadataService.DeliveryManagedBy = userData.DeliveryManagedBy;
+                                    _userMetadataService.HdBusinessRulesChargeType = userData.HdBusinessRulesChargeType;
+                                    _userMetadataService.Latitude = userData.Latitude;
+                                    _userMetadataService.Longitude = userData.Longitude;
+                                    _userMetadataService.Password = Password;
+
+                                    // Save RememberMe state and credentials if enabled
+                                    _userMetadataService.RememberMe = RememberMe;
+                                    await _userMetadataService.SaveRememberMeDataAsync();
 
                                     // Save user data persistently
                                     await _userMetadataService.SaveUserDataAsync();
-                                }
-                                else
-                                {
-                                    System.Console.WriteLine("UserMetadataService is null. Cannot save user metadata.");
-                                    await HandleErrorSafely("An internal error occurred. Please try again later.");
                                 }
 
                                 await Toasty("Login successful!");
 
                                 if (Shell.Current != null)
                                 {
-                                    // Pass user details to the main page
                                     await Shell.Current.GoToAsync($"//main?userName={userData.UserName}");
                                 }
                                 else
@@ -193,29 +193,25 @@ namespace Food_maui.PageModels
                             }
                             else
                             {
-                                var errorMessage = "Invalid user data received.";
-                                await HandleErrorSafely(errorMessage);
+                                await HandleErrorSafely("Invalid user data received.");
                             }
                         }
                         else
                         {
-                            var errorMessage = "Invalid username or password.";
-                            await HandleErrorSafely(errorMessage);
+                            await HandleErrorSafely("Invalid username or password.");
                         }
                     }
                     else
                     {
                         var errorContent = await response.Content.ReadAsStringAsync();
                         System.Console.WriteLine($"Error Response: {errorContent}");
-                        var errorMessage = "Failed to connect to the server.";
-                        await HandleErrorSafely(errorMessage);
+                        await HandleErrorSafely("Failed to connect to the server.");
                     }
                 }
                 catch (HttpRequestException httpEx)
                 {
                     System.Console.WriteLine($"HttpRequestException: {httpEx.Message}");
-                    var errorMessage = "Connection failure. Please check your network and try again.";
-                    await HandleErrorSafely(errorMessage);
+                    await HandleErrorSafely("Connection failure. Please check your network and try again.");
                 }
                 catch (Exception ex)
                 {
@@ -232,8 +228,16 @@ namespace Food_maui.PageModels
         [RelayCommand]
         private async Task RegisterNewBusiness()
         {
-            // Navigate to the registration page
-            await Shell.Current.GoToAsync("RegisterPage"); //Adjust the route
+            try
+            {
+                var url = "http://www.halaldeliveries.com/Pages/BuisnessOwner/BusinessRegistration.aspx";
+                await Browser.OpenAsync(url, BrowserLaunchMode.SystemPreferred);
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine($"Error opening URL: {ex.Message}");
+                await HandleErrorSafely("Unable to open the registration page. Please try again later.");
+            }
         }
 
         [RelayCommand]
@@ -285,6 +289,16 @@ namespace Food_maui.PageModels
                                 {
                                     _userMetadataService.UserName = userData.UserName;
                                     _userMetadataService.UserID = userData.UserID;
+                                    _userMetadataService.RoleName = userData.RoleName;
+                                    _userMetadataService.Restaurant = userData.Restaurant;
+                                    _userMetadataService.RestaurantType = userData.RestaurantType;
+                                    _userMetadataService.BusinessOwner = userData.BusinessOwner;
+                                    _userMetadataService.TaxPercentage = userData.TaxPercentage;
+                                    _userMetadataService.Zip = userData.Zip;
+                                    _userMetadataService.DeliveryManagedBy = userData.DeliveryManagedBy;
+                                    _userMetadataService.HdBusinessRulesChargeType = userData.HdBusinessRulesChargeType;
+                                    _userMetadataService.Latitude = userData.Latitude;
+                                    _userMetadataService.Longitude = userData.Longitude;
 
                                     // Save user data persistently
                                     await _userMetadataService.SaveUserDataAsync();
