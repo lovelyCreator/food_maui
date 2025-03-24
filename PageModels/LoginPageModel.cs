@@ -11,7 +11,9 @@ using System.Text.Json;
 using Microsoft.Maui.ApplicationModel; // For MainThread
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
-using Microsoft.Maui.Authentication; // For WebAuthenticator
+using Microsoft.Maui.Authentication;
+using System.Security.Cryptography;
+using System.Text.Json.Serialization; // For WebAuthenticator
 
 namespace Food_maui.PageModels
 {
@@ -239,16 +241,19 @@ namespace Food_maui.PageModels
         {
             try
             {
-                    System.Console.WriteLine($"Google Auth Email: ");
                 // Step 1: Perform Google Authentication
+                System.Console.WriteLine($"Google Auth Email");
+                var clientId = "830184756662-kppto5i0hm839rvp6aihhljsd5p2bhn3.apps.googleusercontent.com";
+                var redirect_uri = "com.business.foodmaui:/callback";
                 var authResult = await WebAuthenticator.AuthenticateAsync(
-                    new Uri("https://accounts.google.com/o/oauth2/v2/auth?client_id=830184756662-4pnloirsrd1khe8plu29iijffem7prpl.apps.googleusercontent.com&redirect_uri=food_maui://callback&response_type=code&scope=email"),
-                    new Uri("food_maui://callback"));
-
+                    new Uri("https://accounts.google.com/o/oauth2/v2/auth?client_id=830184756662-kppto5i0hm839rvp6aihhljsd5p2bhn3.apps.googleusercontent.com&redirect_uri=com.business.foodmaui:/callback&response_type=code&scope=email%20profile%20openid"),
+                    new Uri(redirect_uri));
                 // Step 2: Extract the email from the Google metadata
-                if (authResult.Properties.TryGetValue("email", out var email))
+                if (authResult.Properties.TryGetValue("code", out var code))
                 {
-                    System.Console.WriteLine($"Google Auth Email: {email}");
+                    System.Console.WriteLine($"Google Auth Code: {code}");
+                    var email = await GetEmailFromAccessToken(code, clientId,  redirect_uri);
+                System.Console.WriteLine($"Google Auth Email: {email}");
 
                     // Step 3: Send the email to the backend
                     var loginData = new
@@ -266,12 +271,45 @@ namespace Food_maui.PageModels
                     if (response.IsSuccessStatusCode)
                     {
                         var responseData = await response.Content.ReadAsStringAsync();
-                        var result = JsonSerializer.Deserialize<LoginResponse>(responseData);
-
+                        var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                        var result = JsonSerializer.Deserialize<LoginResponse>(responseData, options);
+                        Console.WriteLine("response data: " + responseData);
                         if (result?.UsersData != null && result.UsersData.Count > 0)
                         {
-                            await Toasty("Google login successful!");
-                            await Shell.Current.GoToAsync($"//main");
+                            var userData = result.UsersData.FirstOrDefault();
+
+                            if (userData != null && !string.IsNullOrEmpty(userData.UserID))
+                            {
+                                // Save user metadata to the shared service
+                                if (_userMetadataService != null)
+                                {
+                                    _userMetadataService.UserName = userData.UserName;
+                                    _userMetadataService.UserID = userData.UserID;
+
+                                    // Save user data persistently
+                                    await _userMetadataService.SaveUserDataAsync();
+                                }
+                                else
+                                {
+                                    System.Console.WriteLine("UserMetadataService is null. Cannot save user metadata.");
+                                    await HandleErrorSafely("An internal error occurred. Please try again later.");
+                                }
+
+                                await Toasty("Google login successful!");
+
+                                if (Shell.Current != null)
+                                {
+                                    await Shell.Current.GoToAsync($"//main?userName={userData.UserName}");
+                                }
+                                else
+                                {
+                                    System.Console.WriteLine("Shell.Current is null. Cannot navigate.");
+                                }
+                            }
+                            else
+                            {
+                                await HandleErrorSafely("Invalid user data received.");
+                            }
                         }
                         else
                         {
@@ -280,6 +318,8 @@ namespace Food_maui.PageModels
                     }
                     else
                     {
+                        var errorContent = await response.Content.ReadAsStringAsync();
+                        System.Console.WriteLine($"Error Response: {errorContent}");
                         await HandleErrorSafely("Failed to connect to the server.");
                     }
                 }
@@ -293,6 +333,147 @@ namespace Food_maui.PageModels
                 System.Console.WriteLine($"Exception during Google Auth: {ex.Message}");
                 await HandleErrorSafely("An error occurred during Google authentication.");
             }
+        }
+
+        private async Task<string> GetEmailFromAccessToken(string authorizationCode, string clientId, string redirectUri)
+        {
+            try
+            {
+                // Step 1: Generate a code verifier and code challenge for PKCE
+                string codeVerifier = GenerateCodeVerifier();
+
+                // Step 2: Exchange the authorization code for an access token
+                var tokenEndpoint = "https://oauth2.googleapis.com/token";
+                var tokenRequest = new FormUrlEncodedContent(new[]
+                {
+                    new KeyValuePair<string, string>("code", authorizationCode),
+                    new KeyValuePair<string, string>("client_id", clientId),
+                    new KeyValuePair<string, string>("redirect_uri", redirectUri),
+                    new KeyValuePair<string, string>("grant_type", "authorization_code"),
+                    // new KeyValuePair<string, string>("code_verifier", codeVerifier) // PKCE verifier
+                });
+                using var httpClient = new HttpClient();
+                var tokenResponse = await httpClient.PostAsync(tokenEndpoint, tokenRequest);
+                tokenResponse.EnsureSuccessStatusCode();
+
+                var tokenResponseContent = await tokenResponse.Content.ReadAsStringAsync();
+                var tokenData = JsonSerializer.Deserialize<TokenResponse>(tokenResponseContent);
+                Console.WriteLine($"Token Request: {tokenResponseContent}");
+
+                if (tokenData != null && !string.IsNullOrEmpty(tokenData.AccessToken))
+                {
+                    // Step 3: Use the access token to get the user's email
+                    var accessToken = tokenData.AccessToken;
+                    Console.WriteLine($"Access Token: {accessToken}");
+                    var userInfoEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
+                    httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+
+                    var userInfoResponse = await httpClient.GetAsync(userInfoEndpoint);
+                    userInfoResponse.EnsureSuccessStatusCode();
+
+                    var userInfoContent = await userInfoResponse.Content.ReadAsStringAsync();
+                    var userInfo = JsonSerializer.Deserialize<UserInfoResponse>(userInfoContent);
+                    Console.WriteLine($"User Info: {userInfoContent}");
+                    if (userInfo != null && userInfo.VerifiedEmail)
+                    {
+                        return userInfo.Email; // Return the user's email
+                    }
+                    else
+                    {
+                        throw new Exception("Failed to retrieve user's email.");
+                    }
+                }
+                else
+                {
+                    throw new Exception("Failed to retrieve access token.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in GetEmailFromAccessToken: {ex.Message}");
+                throw;
+            }
+        }
+
+        // Generate a code verifier for PKCE
+        private static string GenerateCodeVerifier()
+        {
+            var bytes = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(bytes);
+            }
+            return Convert.ToBase64String(bytes)
+                .TrimEnd('=')
+                .Replace('+', '-')
+                .Replace('/', '_');
+        }
+        public async Task<string> AuthenticateWithGoogleAsync()
+        {
+            var clientId = "830184756662-4pnloirsrd1khe8plu29iijffem7prpl.apps.googleusercontent.com";
+            var redirectUri = "com.business.foodmaui:/oauth2redirect";
+            var authorizationEndpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+            var tokenEndpoint = "https://oauth2.googleapis.com/token";
+
+            // Step 1: Open the authorization URL
+            var authUrl = $"{authorizationEndpoint}?client_id={clientId}&redirect_uri={redirectUri}&response_type=code&scope=email";
+            var authResult = await WebAuthenticator.AuthenticateAsync(new Uri(authUrl), new Uri(redirectUri));
+
+            // Step 2: Exchange the authorization code for an access token
+            var authCode = authResult.Properties["code"];
+            using var httpClient = new HttpClient();
+            var tokenRequest = new FormUrlEncodedContent(new[]
+            {
+                new KeyValuePair<string, string>("code", authCode),
+                new KeyValuePair<string, string>("client_id", clientId),
+                new KeyValuePair<string, string>("redirect_uri", redirectUri),
+                new KeyValuePair<string, string>("grant_type", "authorization_code")
+            });
+
+            var tokenResponse = await httpClient.PostAsync(tokenEndpoint, tokenRequest);
+            tokenResponse.EnsureSuccessStatusCode();
+
+            var tokenResponseContent = await tokenResponse.Content.ReadAsStringAsync();
+            return tokenResponseContent; // This contains the access token and other details
+        }
+
+        public class UserInfoResponse
+        {
+            [JsonPropertyName("email")]
+            public string Email { get; set; }
+
+            [JsonPropertyName("verified_email")]
+            public bool VerifiedEmail { get; set; }
+
+            [JsonPropertyName("name")]
+            public string Name { get; set; }
+
+            [JsonPropertyName("picture")]
+            public string Picture { get; set; }
+
+            [JsonPropertyName("locale")]
+            public string Locale { get; set; }
+        }
+
+        public class TokenResponse
+        {
+            [JsonPropertyName("access_token")]
+            public string AccessToken { get; set; }
+
+            [JsonPropertyName("expires_in")]
+            public int ExpiresIn { get; set; }
+
+            [JsonPropertyName("refresh_token")]
+            public string RefreshToken { get; set; }
+
+            [JsonPropertyName("scope")]
+            public string Scope { get; set; }
+
+            [JsonPropertyName("token_type")]
+            public string TokenType { get; set; }
+
+            [JsonPropertyName("id_token")]
+            public string IdToken { get; set; }
         }
 
         public class LoginResponse

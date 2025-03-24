@@ -1,10 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.business.foodmaui">
-	<!-- <application android:label="Food_maui"
-				android:usesCleartextTraffic="true"
-				android:debuggable="true"> -->
-	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:label="Food_maui" android:usesCleartextTraffic="true" android:debuggable="true">
-		<activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity" android:exported="true">
+	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="Food_maui" android:usesCleartextTraffic="true" android:debuggable="true">
+		<activity android:name=".Droid.WebAuthenticationCallbackActivity" android:exported="true" android:noHistory="true" android:launchMode="singleTop">
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
@@ -15,4 +12,5 @@
 	</application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 </manifest>

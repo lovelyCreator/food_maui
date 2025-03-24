@@ -7,18 +7,25 @@
     -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.business.foodmaui" android:versionCode="1" android:versionName="1.0">
   <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="35" />
-  <!-- <application android:label="Food_maui"
-				android:usesCleartextTraffic="true"
-				android:debuggable="true"> -->
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.INTERNET" />
-  <application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true" android:label="Food_maui" android:usesCleartextTraffic="true" android:debuggable="true" android:name="crc64c3fa693b5ab7d5c6.MainApplication" android:extractNativeLibs="true">
-    <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity" android:exported="true">
+  <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+  <application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="Food_maui" android:usesCleartextTraffic="true" android:debuggable="true" android:name="crc64c3fa693b5ab7d5c6.MainApplication" android:extractNativeLibs="true">
+    <activity android:name=".Droid.WebAuthenticationCallbackActivity" android:exported="true" android:noHistory="true" android:launchMode="singleTop">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <data android:scheme="com.business.foodmaui" android:host="oauth2redirect" />
+      </intent-filter>
+    </activity>
+    <activity android:exported="true" android:launchMode="singleTop" android:noHistory="true" android:name="crc6430de23301bac1533.WebAuthenticationCallbackActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:path="/callback/" />
+        <data android:scheme="com.business.foodmaui" />
       </intent-filter>
     </activity>
     <activity android:configChanges="density|orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:launchMode="singleTop" android:theme="@style/Maui.SplashTheme" android:name="crc64c3fa693b5ab7d5c6.MainActivity" android:exported="true">
