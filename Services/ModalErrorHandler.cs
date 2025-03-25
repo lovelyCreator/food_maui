@@ -30,5 +30,60 @@ namespace Food_maui.Services
                 _semaphore.Release();
             }
         }
+
+        public void EnterSearch(string query)
+        {
+            PerformSearch(query).FireAndForgetSafeAsync();
+        }
+
+        async Task PerformSearch(string query)
+        {
+            try
+            {
+                await _semaphore.WaitAsync();
+                // Implement search logic here
+                // Example: await SearchService.SearchAsync(query);
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
+        }
+
+        public void OnNewButtonPressed()
+        {
+            ChangeButtonAppearance().FireAndForgetSafeAsync();
+        }
+
+        async Task ChangeButtonAppearance()
+        {
+            try
+            {
+                await _semaphore.WaitAsync();
+                // Implement logic to change border or color of the button
+                // Example: Button button = GetButtonByName("New (num)");
+                // button.BorderColor = Color.Red;
+                // button.BackgroundColor = Color.Blue;
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
+        }
+    }
+
+    public static class TaskExtensions
+    {
+        public static async void FireAndForgetSafeAsync(this Task task)
+        {
+            try
+            {
+                await task;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+            }
+        }
     }
 }

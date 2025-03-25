@@ -12,6 +12,14 @@
   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+  <!-- Existing permissions -->
+  <!-- Required permissions for notifications -->
   <permission android:name="com.business.foodmaui.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature" />
   <uses-permission android:name="com.business.foodmaui.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
   <application android:name="crc64c3fa693b5ab7d5c6.MainApplication" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:debuggable="true" android:extractNativeLibs="true" android:icon="@mipmap/appicon" android:label="Food_maui" android:supportsRtl="true" android:usesCleartextTraffic="true">
@@ -23,6 +31,8 @@
         <data android:host="oauth2redirect" android:scheme="com.business.foodmaui" />
       </intent-filter>
     </activity>
+    <!-- Add receiver for notification broadcasts -->
+    <receiver android:name="LocalNotificationDemo.Platforms.Android.NotificationReceiver" android:exported="false" />
     <activity android:name="crc6430de23301bac1533.WebAuthenticationCallbackActivity" android:exported="true" android:launchMode="singleTop" android:noHistory="true">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />

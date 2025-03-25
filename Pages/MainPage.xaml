@@ -1,93 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!-- <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pageModels="clr-namespace:Food_maui.PageModels"             
-             xmlns:models="clr-namespace:Food_maui.Models"
-             xmlns:controls="clr-namespace:Food_maui.Pages.Controls"
-             xmlns:pullToRefresh="clr-namespace:Syncfusion.Maui.Toolkit.PullToRefresh;assembly=Syncfusion.Maui.Toolkit"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="Food_maui.Pages.MainPage"
-             x:DataType="pageModels:MainPageModel"
-             Title="{Binding Today}">
-
-    <ContentPage.Behaviors>
-        <toolkit:EventToCommandBehavior
-                EventName="NavigatedTo"
-                Command="{Binding NavigatedToCommand}" />
-        <toolkit:EventToCommandBehavior
-                EventName="NavigatedFrom"
-                Command="{Binding NavigatedFromCommand}" />
-        <toolkit:EventToCommandBehavior
-                EventName="Appearing"                
-                Command="{Binding AppearingCommand}" />
-    </ContentPage.Behaviors>
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
-    <Grid>
-        <pullToRefresh:SfPullToRefresh
-            IsRefreshing="{Binding IsRefreshing}"
-            RefreshCommand="{Binding RefreshCommand}">
-            <pullToRefresh:SfPullToRefresh.PullableContent>
-                <ScrollView>
-                    <VerticalStackLayout Spacing="{StaticResource LayoutSpacing}" Padding="{StaticResource LayoutPadding}">
-
-                        <controls:AddButton 
-            Command="{Binding LoginCommand}" />
-                        <controls:CategoryChart />
-                        <Label Text="Projects" Style="{StaticResource Title2}"/>
-                        <ScrollView Orientation="Horizontal" Margin="-30,0">
-                            <HorizontalStackLayout 
-                                Spacing="15" Padding="30,0"
-                                BindableLayout.ItemsSource="{Binding Projects}">
-                                <BindableLayout.ItemTemplate>
-                                    <DataTemplate x:DataType="models:Project">
-                                        <controls:ProjectCardView WidthRequest="200">
-                                            <controls:ProjectCardView.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding NavigateToProjectCommand, Source={RelativeSource AncestorType={x:Type pageModels:MainPageModel}}, x:DataType=pageModels:MainPageModel}" CommandParameter="{Binding .}"/>
-                                            </controls:ProjectCardView.GestureRecognizers>
-                                        </controls:ProjectCardView>
-                                    </DataTemplate>
-                                </BindableLayout.ItemTemplate>
-                            </HorizontalStackLayout>
-                        </ScrollView>
-                        <Grid HeightRequest="44">
-                            <Label Text="Tasks" Style="{StaticResource Title2}" VerticalOptions="Center"/>
-                            <ImageButton 
-                                Source="{StaticResource IconClean}"
-                                HorizontalOptions="End"
-                                VerticalOptions="Center"
-                                Aspect="Center"
-                                HeightRequest="44"
-                                WidthRequest="44"
-                                IsVisible="{Binding HasCompletedTasks}"
-                                Command="{Binding CleanTasksCommand}"
-                                />
-                        </Grid>
-                        <VerticalStackLayout Spacing="15"
-                            BindableLayout.ItemsSource="{Binding Tasks}">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate>
-                                    <controls:TaskView TaskCompletedCommand="{Binding TaskCompletedCommand, Source={RelativeSource AncestorType={x:Type pageModels:MainPageModel}}, x:DataType=pageModels:MainPageModel}" />
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </VerticalStackLayout>
-                    </VerticalStackLayout>
-                </ScrollView>
-            </pullToRefresh:SfPullToRefresh.PullableContent>
-        </pullToRefresh:SfPullToRefresh>
-
-        <controls:AddButton 
-            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
-            Command="{Binding AddTaskCommand}" />
-    </Grid>
-</ContentPage> -->
-
-
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pageModels="clr-namespace:Food_maui.PageModels"             
@@ -100,131 +11,278 @@
              Title="{Binding Today}"
              Shell.NavBarIsVisible="False">
 
-    <Grid RowDefinitions="Auto, Auto, Auto">
-        
-        <VerticalStackLayout Padding="0" BackgroundColor="white">
-            
-        </VerticalStackLayout>
+    <Grid>
+        <ScrollView Orientation="Vertical" VerticalScrollBarVisibility="Never">
+            <Grid RowDefinitions="Auto, Auto, Auto">
+                <VerticalStackLayout Padding="0" BackgroundColor="#f0f0f0">
+                    <!-- Header Section -->
+                    <VerticalStackLayout Padding="0" BackgroundColor="#f0f0f0">
+                        <Grid HorizontalOptions="Fill" VerticalOptions="Center" HeightRequest="100" BackgroundColor="White" Padding="0">
+                            <!-- Logo -->
+                            <Image Source="halal_logo.png" HeightRequest="80" VerticalOptions="Center" HorizontalOptions="Start" Margin="10,0,0,0" />
+                            <!-- Menu Button -->
+                            <Button Text="☰" FontSize="24" BackgroundColor="transparent" TextColor="Black" VerticalOptions="Center" HorizontalOptions="End"
+                                    Command="{Binding OpenMenuCommand}" Margin="0,0,10,0" />
+                            <!-- Bottom Shadow -->
+                            <BoxView HeightRequest="2" VerticalOptions="End" HorizontalOptions="Fill" BackgroundColor="#CCCCCC" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto,*" Padding="0, 10">
+                            <HorizontalStackLayout HorizontalOptions="End" Grid.Column="1" Spacing="5">
+                                <Button 
+                                    ImageSource="home_icon.png" 
+                                    Text="Home" 
+                                    BackgroundColor="#4CAF50" 
+                                    TextColor="White" 
+                                    FontSize="Default" 
+                                    ContentLayout="Left,0" />
+                                <Button 
+                                    ImageSource="dollar_icon.png" 
+                                    Text="Today's Sales" 
+                                    BackgroundColor="#2196F3" 
+                                    TextColor="White" 
+                                    FontSize="Default"
+                                    ContentLayout="Left,0" />
+                                <Button 
+                                    ImageSource="dollar_icon.png" 
+                                    Text="Sales Report" 
+                                    BackgroundColor="#FF5722" 
+                                    TextColor="White" 
+                                    FontSize="Default" 
+                                    ContentLayout="Left,0" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                        <Label Text="Business Name: Pakwan Restaurant Hayward - Account ID: 6"
+                               HorizontalOptions="Center" Padding="10" FontSize="Caption" Margin="0,5"/>
+                        <VerticalStackLayout Padding="10">
+                            <Label Text="Deliver Status"/>
+                            <Picker 
+                                Title="Deliver Status" 
+                                ItemsSource="{Binding DeliveryStatuses}" 
+                                SelectedItem="{Binding SelectedDeliveryStatus}" 
+                                SelectedIndexChanged="OnDeliveryStatusChanged"
+                                Margin="0,5" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Padding="10" HorizontalOptions="Fill">
+                            <Label Text="Search"/>
+                            <HorizontalStackLayout Margin="0,5" HorizontalOptions="Fill">
+                                <Entry Placeholder="Enter Order # and press Enter..." HorizontalOptions="Fill"
+                                   Text="{Binding SearchText, Mode=TwoWay}" Keyboard="Numeric" ReturnType="Search"
+                                   Completed="OnSearchEntryCompleted" />
+                                <ImageButton Padding="10" BackgroundColor="#2196F3" Source="search.ico" WidthRequest="20" HeightRequest="20" Command="{Binding SearchCommand}" Clicked="OnSearchButtonClicked"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        <ScrollView Orientation="Horizontal" Padding="10">
+                            <HorizontalStackLayout x:Name="StatusButtonsContainer" Spacing="5" Margin="0,5">
+                                <Button Text="{Binding TotalNumber, StringFormat='All ({0})'}" BackgroundColor="{Binding TotalButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="2"/>
+                                <Button Text="{Binding NewNumber, StringFormat='New ({0})'}" BackgroundColor="{Binding NewButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
+                                <Button Text="{Binding InProcessNumber, StringFormat='In Process ({0})'}" BackgroundColor="{Binding InProcessButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
+                                <Button Text="{Binding ReadyNumber, StringFormat='Ready ({0})'}" BackgroundColor="{Binding ReadyButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
+                                <Button Text="{Binding PickedUpNumber, StringFormat='Picked Up ({0})'}" BackgroundColor="{Binding PickedUpButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
+                                <Button Text="{Binding CanceledNumber, StringFormat='Canceled ({0})'}" BackgroundColor="{Binding CanceledButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
+                                <Button Text="{Binding ScheduledNumber, StringFormat='Scheduled ({0})'}" BackgroundColor="{Binding ScheduledButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
+                            </HorizontalStackLayout>
+                        </ScrollView>
+                    </VerticalStackLayout>
 
-        <!-- Header Section -->
-        <VerticalStackLayout Padding="0" BackgroundColor="#f0f0f0">
-            <Grid HorizontalOptions="Fill" VerticalOptions="Center" HeightRequest="100" BackgroundColor="White" Padding="0">
-                <!-- Logo -->
-                <Image Source="halal_logo.png" HeightRequest="80" VerticalOptions="Center" HorizontalOptions="Start" Margin="10,0,0,0" />
+                    <!-- Main Content (Image) -->
+                    <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center" BackgroundColor="#f0f0f0">
+                        <Label 
+                            Text="{Binding TodaysOrdersText}" 
+                            HorizontalOptions="Start" 
+                            Margin="10" 
+                            TextColor="Black" />
+                        <Image 
+                            Source="hd_business_orders.jpg" 
+                            Aspect="AspectFill" 
+                            WidthRequest="300" 
+                            HeightRequest="200" 
+                            IsVisible="{Binding IsPictureVisible}" />
+                        <Label 
+                            Text="No data found" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center" 
+                            TextColor="Red" 
+                            IsVisible="{Binding IsNoDataFound}" />
+                        
+                        <!-- Updated CollectionView with Frame for better visualization -->
+                        <!-- <CollectionView ItemsSource="{Binding TestOrders}" IsVisible="{Binding IsDataFound}" -->
+                        <CollectionView ItemsSource="{Binding FilteredOrders}" IsVisible="{Binding IsDataFound}"
+                                       Margin="10" SelectionMode="Single">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:OrderData">
+                                    <Frame Margin="0,5" Padding="10" BorderColor="#CCCCCC" CornerRadius="5" VerticalOptions="Center" HasShadow="True">
+                                        <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto,Auto,Auto,Auto" VerticalOptions="Center">
+                                            <!-- Order ID -->
+                                            <Label Grid.Row="0" Grid.Column="0" Text="Order ID:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" />
+                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding salesOrderID}" FontSize="Small" VerticalOptions="Center" Margin="5,0,0,0" />
+                                            
+                                            <!-- Status with color coding -->
+                                            <Label Grid.Row="1" Grid.Column="0" Text="Status:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                            <!-- <Border Grid.Row="1" Grid.Column="1" Stroke="Transparent" StrokeThickness="0" 
+                                                    BackgroundColor="{Binding delivery_Status, Converter={StaticResource StatusToColorConverter}}"
+                                                    Padding="5,2" HorizontalOptions="Start" Margin="5,5,0,0">
+                                                <Label Text="{Binding delivery_Status}" TextColor="White" FontSize="Small" />
+                                            </Border> -->
+                                            <Border Grid.Row="1" Grid.Column="1" Stroke="Transparent" StrokeThickness="0" 
+                                                    BackgroundColor="Green"
+                                                    Padding="5,2" HorizontalOptions="Start" Margin="5,5,0,0">
+                                                <Label Text="{Binding delivery_Status}" TextColor="Black" FontSize="Small" />
+                                            </Border>
+                                            
+                                            <!-- Customer Info -->
+                                            <Label Grid.Row="2" Grid.Column="0" Text="Customer:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding customerName}" FontSize="Small" VerticalOptions="Center" Margin="5,5,0,0" />
+                                            
+                                            
+                                            <!-- Customer Info -->
+                                            <Label Grid.Row="3" Grid.Column="0" Text="Date:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding dateOrder}" FontSize="Small" VerticalOptions="Center" Margin="5,5,0,0" />
+                                            
+                                            <!-- Action Button -->
+                                            <Button Grid.Row="3" Grid.Column="2" Grid.RowSpan="3" 
+                                                    Text="View/Edit" 
+                                                    BackgroundColor="#2196F3" 
+                                                    TextColor="White"
+                                                    CornerRadius="5"
+                                                    Padding="10,5"
+                                                    VerticalOptions="Center"
+                                                    Clicked="OnViewEditButtonClicked" />
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                            <CollectionView.EmptyView>
+                                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                    <Label Text="No orders found" TextColor="Gray" FontSize="Medium" />
+                                </StackLayout>
+                            </CollectionView.EmptyView>
+                        </CollectionView>
+                        
+                        <!-- Test Notification Button -->
+                        <!-- <Button 
+                            Text="Test Notification" 
+                            BackgroundColor="#673AB7" 
+                            TextColor="White" 
+                            Margin="0,20,0,0"
+                            Clicked="OnTestNotificationClicked" /> -->
+                        <Button 
+                            Text="Test Popup Notification" 
+                            BackgroundColor="#E91E63" 
+                            TextColor="White" 
+                            Clicked="OnTestPopupNotificationClicked" />
+                    </VerticalStackLayout>
 
-                <!-- Menu Button -->
-                <Button Text="☰" FontSize="24" BackgroundColor="transparent" TextColor="Black" VerticalOptions="Center" HorizontalOptions="End"
-                        Command="{Binding OpenMenuCommand}" Margin="0,0,10,0" />
-
-                <!-- Bottom Shadow -->
-                <BoxView HeightRequest="2" VerticalOptions="End" HorizontalOptions="Fill" BackgroundColor="#CCCCCC" />
+                    <!-- Footer -->
+                    <VerticalStackLayout Grid.Row="2" HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,10" Spacing="5" BackgroundColor="#f0f0f0">
+                        <!-- First Part -->
+                        <Label 
+                            Text="© Copyright 2020-2025 Halal Deliveries. All Rights Reserved. (Version 24.06.05.Prod.a)" 
+                            HorizontalOptions="Center" 
+                            HorizontalTextAlignment="Center"
+                            Padding="30, 5"
+                            FontSize="Caption" 
+                            TextColor="Gray" />
+                        <!-- Second Part -->
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                            <Label 
+                                Text="An iSofware Company" 
+                                FontAttributes="Bold" 
+                                TextColor="Black" 
+                                FontSize="Caption" />
+                            <Label 
+                                Text="www.iSofware.com" 
+                                TextColor="Red" 
+                                FontSize="Caption">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenWebsiteCommand}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
             </Grid>
-            <Grid ColumnDefinitions="*,Auto,*" Padding="0, 10">
-                <HorizontalStackLayout HorizontalOptions="End" Grid.Column="1" Spacing="5">
-                    <Button 
-                        ImageSource="home_icon.png" 
-                        Text="Home" 
-                        BackgroundColor="#4CAF50" 
-                        TextColor="White" 
-                        FontSize="Default" 
-                        ContentLayout="Left,0" />
-                    <Button 
-                        ImageSource="dollar_icon.png" 
-                        Text="Today's Sales" 
-                        BackgroundColor="#2196F3" 
-                        TextColor="White" 
-                        FontSize="Default"
-                        ContentLayout="Left,0" />
-                    <Button 
-                        ImageSource="dollar_icon.png" 
-                        Text="Sales Report" 
-                        BackgroundColor="#FF5722" 
-                        TextColor="White" 
-                        FontSize="Default" 
-                        ContentLayout="Left,0" />
-                </HorizontalStackLayout>
+        </ScrollView>
+        <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="transparent" ZIndex="1000" />
+
+        <!-- Modal for View/Edit -->
+        <ContentView IsVisible="{Binding IsModalVisible}" BackgroundColor="#80000000" ZIndex="1001">
+            <Grid VerticalOptions="Center" HorizontalOptions="Center">
+                <Frame VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="350" HeightRequest="500" Padding="20" BackgroundColor="White" CornerRadius="10">
+                    <Grid RowDefinitions="Auto, *, Auto">
+                        <Label Grid.Row="0" Text="Edit Order" FontSize="Large" HorizontalOptions="Center"></Label>
+                        <ScrollView Grid.Row="1">
+                            <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0" Text="Order ID:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.salesOrderID}" IsEnabled="False" />
+
+                                <Label Grid.Row="1" Grid.Column="0" Text="Restaurant:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="1" Grid.Column="1" Text="{Binding SelectedOrder.restaurant}" />
+
+                                <Label Grid.Row="2" Grid.Column="0" Text="Customer Name:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="2" Grid.Column="1" Text="{Binding SelectedOrder.customerName}" />
+
+                                <Label Grid.Row="3" Grid.Column="0" Text="Delivery Status:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Picker Grid.Row="3" Grid.Column="1" ItemsSource="{Binding DeliveryStatuses}" SelectedItem="{Binding SelectedOrder.delivery_Status}" />
+
+                                <Label Grid.Row="4" Grid.Column="0" Text="Date Order:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="4" Grid.Column="1" Text="{Binding SelectedOrder.dateOrder}" />
+
+                                <Label Grid.Row="5" Grid.Column="0" Text="Total Amount:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="5" Grid.Column="1" Text="{Binding SelectedOrder.invoiceAmount}" />
+
+                                <Label Grid.Row="6" Grid.Column="0" Text="Order Items:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="6" Grid.Column="1" Text="{Binding SelectedOrder.orderItems}" />
+
+                                <Label Grid.Row="7" Grid.Column="0" Text="Order Type:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="7" Grid.Column="1" Text="{Binding SelectedOrder.orderType}" />
+
+                                <Label Grid.Row="8" Grid.Column="0" Text="Driver Name:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="8" Grid.Column="1" Text="{Binding SelectedOrder.driverName}" />
+
+                                <Label Grid.Row="9" Grid.Column="0" Text="Destination Address:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="9" Grid.Column="1" Text="{Binding SelectedOrder.destinationAddress}" />
+
+                                <Label Grid.Row="10" Grid.Column="0" Text="Schedule Pick Up Time:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="10" Grid.Column="1" Text="{Binding SelectedOrder.schedulePickUpTime}" />
+
+                                <Label Grid.Row="11" Grid.Column="0" Text="Original Invoice Amount:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="11" Grid.Column="1" Text="{Binding SelectedOrder.originalInvoiceAmount}" />
+
+                                <Label Grid.Row="12" Grid.Column="0" Text="Original Tax:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="12" Grid.Column="1" Text="{Binding SelectedOrder.originalTax}" />
+
+                                <Label Grid.Row="13" Grid.Column="0" Text="Week Day:" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Entry Grid.Row="13" Grid.Column="1" Text="{Binding SelectedOrder.week_Day}" />
+                            </Grid>
+                        </ScrollView>
+                        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+                            <Button Text="Save" WidthRequest="100" Command="{Binding SaveOrderCommand}" />
+                            <Button Text="Init" WidthRequest="100" Command="{Binding InitOrderCommand}" />
+                        </StackLayout>
+                    </Grid>
+                </Frame>
             </Grid>
-
-            <Label Text="Business Name: Pakwan Restaurant Hayward - Account ID: 6"
-                   HorizontalOptions="Center" Padding="10" FontSize="Caption" Margin="0,5"/>
-            <VerticalStackLayout Padding="10">
-                <Label Text="Deliver Status"/>
-                <Picker 
-                    Title="All" 
-                    ItemsSource="{Binding DeliveryStatuses}" 
-                    SelectedItem="{Binding SelectedDeliveryStatus}" 
-                    Margin="0,5" />
-            </VerticalStackLayout>
-            <VerticalStackLayout Padding="10" HorizontalOptions="Fill">
-                <Label Text="Search"/>
-                <HorizontalStackLayout Margin="0,5" HorizontalOptions="Fill">
-                    <Entry Placeholder="Enter Order # and press Enter..." HorizontalOptions="Fill"
-                       Text="{Binding SearchText, Mode=TwoWay}" ReturnType="Search" />
-                    <ImageButton Padding="10" BackgroundColor="#2196F3" Source="search.ico" WidthRequest="20" HeightRequest="20" Command="{Binding SearchCommand}"/>
-                </HorizontalStackLayout>
-            </VerticalStackLayout>
-
-            <ScrollView Orientation="Horizontal" Padding="10">
-                <HorizontalStackLayout Spacing="5" Margin="0,5">
-                    <Button Text="New (0)" BackgroundColor="#4CAF50" TextColor="White"/>
-                    <Button Text="In Process (0)" BackgroundColor="#FFC107" TextColor="White"/>
-                    <Button Text="Ready (0)" BackgroundColor="#8BC34A" TextColor="White"/>
-                    <Button Text="Picked Up (0)" BackgroundColor="#03A9F4" TextColor="White"/>
-                    <Button Text="Canceled (0)" BackgroundColor="#F44336" TextColor="White"/>
-                    <Button Text="Scheduled (0)" BackgroundColor="#9C27B0" TextColor="White"/>
-                </HorizontalStackLayout>
-            </ScrollView>
-        </VerticalStackLayout>
-
-        <!-- Main Content (Image) -->
-        <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-            <Label 
-                Text="{Binding TodaysOrdersText}" 
-                HorizontalOptions="Start" 
-                Margin="0,10" 
-                TextColor="Black" />
-            <Image 
-                Source="hd_business_orders.jpg" 
-                Aspect="AspectFill" 
-                WidthRequest="300" 
-                HeightRequest="200" />
-                
-            <!-- Test Notification Button -->
-            <Button 
-                Text="Test Notification" 
-                BackgroundColor="#673AB7" 
-                TextColor="White" 
-                Margin="0,20,0,0"
-                Clicked="OnTestNotificationClicked" />
-        </VerticalStackLayout>
-
-        <!-- Footer -->
-        <VerticalStackLayout Grid.Row="2" HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,10" Spacing="5">
-            <!-- First Part -->
-            <Label 
-                Text="© Copyright 2020-2025 Halal Deliveries. All Rights Reserved. (Version 24.06.05.Prod.a)" 
-                HorizontalOptions="Center" 
-                HorizontalTextAlignment="Center"
-                Padding="30, 5"
-                FontSize="Caption" 
-                TextColor="Gray" />
-
-            <!-- Second Part -->
-            <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
-                <Label 
-                    Text="An iSofware Company" 
-                    FontAttributes="Bold" 
-                    TextColor="Black" 
-                    FontSize="Caption" />
-                <Label 
-                    Text="www.iSofware.com" 
-                    TextColor="Red" 
-                    FontSize="Caption">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenWebsiteCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
+        </ContentView>
     </Grid>
 </ContentPage>

@@ -12,6 +12,12 @@
   <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+  <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
   <application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="Food_maui" android:usesCleartextTraffic="true" android:debuggable="true" android:name="crc64c3fa693b5ab7d5c6.MainApplication" android:extractNativeLibs="true">
     <activity android:name=".Droid.WebAuthenticationCallbackActivity" android:exported="true" android:noHistory="true" android:launchMode="singleTop">
       <intent-filter>
@@ -21,6 +27,8 @@
         <data android:scheme="com.business.foodmaui" android:host="oauth2redirect" />
       </intent-filter>
     </activity>
+    <!-- Add receiver for notification broadcasts -->
+    <receiver android:name="LocalNotificationDemo.Platforms.Android.NotificationReceiver" android:exported="false" />
     <activity android:exported="true" android:launchMode="singleTop" android:noHistory="true" android:name="crc6430de23301bac1533.WebAuthenticationCallbackActivity">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />
@@ -54,4 +62,6 @@
     <service android:name="crc64396a3fe5f8138e3f.KeepAliveService" />
     <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:authorities="com.business.foodmaui.mono.MonoRuntimeProvider.__mono_init__" />
   </application>
+  <!-- Existing permissions -->
+  <!-- Required permissions for notifications -->
 </manifest>

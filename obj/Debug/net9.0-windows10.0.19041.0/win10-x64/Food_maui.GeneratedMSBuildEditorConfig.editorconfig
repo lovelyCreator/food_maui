@@ -51,24 +51,6 @@ build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.Controls.C
 build_metadata.AdditionalFiles.TargetPath = Pages\Controls\CategoryChart.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\Controls\CategoryChart.xaml
 
-[D:/Project/mobile/Food_maui_basic/Food_maui/Pages/Controls/ProjectCardView.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.Controls.ProjectCardView.xaml
-build_metadata.AdditionalFiles.TargetPath = Pages\Controls\ProjectCardView.xaml
-build_metadata.AdditionalFiles.RelativePath = Pages\Controls\ProjectCardView.xaml
-
-[D:/Project/mobile/Food_maui_basic/Food_maui/Pages/Controls/TagView.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.Controls.TagView.xaml
-build_metadata.AdditionalFiles.TargetPath = Pages\Controls\TagView.xaml
-build_metadata.AdditionalFiles.RelativePath = Pages\Controls\TagView.xaml
-
-[D:/Project/mobile/Food_maui_basic/Food_maui/Pages/Controls/TaskView.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.Controls.TaskView.xaml
-build_metadata.AdditionalFiles.TargetPath = Pages\Controls\TaskView.xaml
-build_metadata.AdditionalFiles.RelativePath = Pages\Controls\TaskView.xaml
-
 [D:/Project/mobile/Food_maui_basic/Food_maui/Pages/LoginPage.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.LoginPage.xaml
@@ -80,30 +62,6 @@ build_metadata.AdditionalFiles.GenKind = Xaml
 build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.MainPage.xaml
 build_metadata.AdditionalFiles.TargetPath = Pages\MainPage.xaml
 build_metadata.AdditionalFiles.RelativePath = Pages\MainPage.xaml
-
-[D:/Project/mobile/Food_maui_basic/Food_maui/Pages/ManageMetaPage.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.ManageMetaPage.xaml
-build_metadata.AdditionalFiles.TargetPath = Pages\ManageMetaPage.xaml
-build_metadata.AdditionalFiles.RelativePath = Pages\ManageMetaPage.xaml
-
-[D:/Project/mobile/Food_maui_basic/Food_maui/Pages/ProjectDetailPage.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.ProjectDetailPage.xaml
-build_metadata.AdditionalFiles.TargetPath = Pages\ProjectDetailPage.xaml
-build_metadata.AdditionalFiles.RelativePath = Pages\ProjectDetailPage.xaml
-
-[D:/Project/mobile/Food_maui_basic/Food_maui/Pages/ProjectListPage.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.ProjectListPage.xaml
-build_metadata.AdditionalFiles.TargetPath = Pages\ProjectListPage.xaml
-build_metadata.AdditionalFiles.RelativePath = Pages\ProjectListPage.xaml
-
-[D:/Project/mobile/Food_maui_basic/Food_maui/Pages/TaskDetailPage.xaml]
-build_metadata.AdditionalFiles.GenKind = Xaml
-build_metadata.AdditionalFiles.ManifestResourceName = Food_maui.Pages.TaskDetailPage.xaml
-build_metadata.AdditionalFiles.TargetPath = Pages\TaskDetailPage.xaml
-build_metadata.AdditionalFiles.RelativePath = Pages\TaskDetailPage.xaml
 
 [D:/Project/mobile/Food_maui_basic/Food_maui/Resources/Styles/AppStyles.xaml]
 build_metadata.AdditionalFiles.GenKind = Xaml

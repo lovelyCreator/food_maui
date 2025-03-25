@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Food_maui.Data;
 using Food_maui.Models;
 using Food_maui.Services;
 using Microsoft.Maui.Controls;
