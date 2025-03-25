@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
 using Font = Microsoft.Maui.Font;
+using Food_maui.Services;
 
 namespace Food_maui
 {
     public partial class AppShell : Shell
     {
+        private OrderCheckService _orderCheckService;
+
         public AppShell()
         {
             InitializeComponent();
@@ -20,7 +23,10 @@ namespace Food_maui
             {
                 OpenMenuCommand = new Command(() => Current.FlyoutIsPresented = true)
             };
+
+            _orderCheckService = new OrderCheckService();
         }
+
         public static async Task DisplaySnackbarAsync(string message)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();

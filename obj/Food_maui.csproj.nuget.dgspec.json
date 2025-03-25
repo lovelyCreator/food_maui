@@ -93,6 +93,10 @@
               "version": "[9.0.3, )",
               "autoReferenced": true
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
             "SQLitePCLRaw.bundle_green": {
               "target": "Package",
               "version": "[2.1.11, )"
@@ -155,6 +159,10 @@
               "target": "Package",
               "version": "[9.0.3, )",
               "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "SQLitePCLRaw.bundle_green": {
               "target": "Package",
@@ -219,6 +227,10 @@
               "version": "[9.0.3, )",
               "autoReferenced": true
             },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            },
             "SQLitePCLRaw.bundle_green": {
               "target": "Package",
               "version": "[2.1.11, )"
@@ -276,6 +288,10 @@
             "Microsoft.Maui.Controls": {
               "target": "Package",
               "version": "[9.0.50, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "SQLitePCLRaw.bundle_green": {
               "target": "Package",

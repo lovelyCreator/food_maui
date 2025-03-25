@@ -13,6 +13,13 @@ namespace Food_maui.PageModels
 {
     public partial class MainPageModel : ObservableObject
     {
+        // private readonly NotificationService _notificationService;
+
+        // public MainPageModel(NotificationService notificationService)
+        // {
+        //     _notificationService = notificationService;
+        // }
+
         private bool _isNavigatedTo;
         private bool _dataLoaded;
         private string _currentStatus = "All";
@@ -476,6 +483,12 @@ namespace Food_maui.PageModels
             PickedUpButtonColor = "#F44336";
             CanceledButtonColor = "#9C27B0";
             ScheduledButtonColor = "#673AB7";
+        }
+
+        [RelayCommand]
+        public async Task FetchAndShowNotifications()
+        {
+            // await _notificationService.FetchAndShowNotificationsAsync();
         }
     }
 }

@@ -126,6 +126,9 @@ namespace LocalNotificationDemo.Platforms.Android
                     intent,
                     PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
 
+                // Generate a unique notification ID for each popup
+                var uniqueNotificationId = (int)DateTime.UtcNow.Ticks;
+
                 // Build the notification with high priority settings - SIMPLIFIED VERSION
                 var notificationBuilder = new NotificationCompat.Builder(context, Food_maui.MainActivity.HighPriorityChannelId)
                     .SetContentTitle(title)
@@ -141,8 +144,22 @@ namespace LocalNotificationDemo.Platforms.Android
                     .SetOngoing(true);
 
                 // Add simple action buttons without icons
-                notificationBuilder.AddAction(0, "Accept", pendingIntent);
-                notificationBuilder.AddAction(0, "Decline", pendingIntent);
+                var acceptIntent = new Intent(context, typeof(NotificationReceiver));
+                acceptIntent.SetAction("com.business.foodmaui.ACCEPT_ACTION");
+                acceptIntent.PutExtra("title", title);
+                acceptIntent.PutExtra("message", message);
+                acceptIntent.PutExtra("notification_id", uniqueNotificationId);
+                var acceptPendingIntent = PendingIntent.GetBroadcast(context, uniqueNotificationId, acceptIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+                
+                // var declineIntent = new Intent(context, typeof(NotificationReceiver));
+                // declineIntent.SetAction("com.business.foodmaui.DECLINE_ACTION");
+                // declineIntent.PutExtra("title", title);
+                // declineIntent.PutExtra("message", message);
+                // declineIntent.PutExtra("notification_id", uniqueNotificationId);
+                // var declinePendingIntent = PendingIntent.GetBroadcast(context, uniqueNotificationId + 1, declineIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+
+                notificationBuilder.AddAction(0, "Accept", acceptPendingIntent);
+                // notificationBuilder.AddAction(0, "Decline", declinePendingIntent);
 
                 // Add vibration pattern
                 long[] vibrationPattern = { 0, 500, 500, 500, 500, 500 };
@@ -157,7 +174,7 @@ namespace LocalNotificationDemo.Platforms.Android
                 // Check for notification permission
                 if (CheckNotificationPermission(context))
                 {
-                    notificationManagerCompat.Notify(PopupNotificationId, notificationBuilder.Build());
+                    notificationManagerCompat.Notify(uniqueNotificationId, notificationBuilder.Build());
                     Console.WriteLine("Popup notification sent successfully");
                 }
                 else

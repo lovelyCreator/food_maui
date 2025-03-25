@@ -2078,7 +2078,7 @@ D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\stamp\_Gene
 D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\stamp\_GeneratePackageManagerJava.stamp
 D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\stamp\_ResolveLibraryProjectImports.stamp
 D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\Food_maui.sourcelink.json
-D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\android\src\crc64c3fa693b5ab7d5c6\WebAuthenticationCallbackActivity.java
 D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\android\src\crc6430de23301bac1533\WebAuthenticationCallbackActivity.java
 D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\android\src\crc649a6341487f512576\MainActivity.java
 D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\android\src\crc649a6341487f512576\NotificationReceiver.java
+D:\Project\mobile\Food_maui_basic\Food_maui\obj\Debug\net9.0-android\android\assets\x86_64\Newtonsoft.Json.dll

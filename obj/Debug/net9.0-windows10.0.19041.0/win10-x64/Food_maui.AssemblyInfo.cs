@@ -18,7 +18,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Food_maui")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+48edcffcbaa7023bc973221901d94c5dabb96851")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+0444578ad3302aed87502289c61dc79d44e98e18")]
 [assembly: System.Reflection.AssemblyProductAttribute("Food_maui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Food_maui")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

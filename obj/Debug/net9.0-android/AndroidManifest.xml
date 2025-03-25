@@ -28,7 +28,12 @@
       </intent-filter>
     </activity>
     <!-- Add receiver for notification broadcasts -->
-    <receiver android:name="LocalNotificationDemo.Platforms.Android.NotificationReceiver" android:exported="false" />
+    <receiver android:name="LocalNotificationDemo.Platforms.Android.NotificationReceiver" android:exported="false">
+      <intent-filter>
+        <action android:name="com.business.foodmaui.ACCEPT_ACTION" />
+        <action android:name="com.business.foodmaui.DECLINE_ACTION" />
+      </intent-filter>
+    </receiver>
     <activity android:exported="true" android:launchMode="singleTop" android:noHistory="true" android:name="crc6430de23301bac1533.WebAuthenticationCallbackActivity">
       <intent-filter>
         <action android:name="android.intent.action.VIEW" />

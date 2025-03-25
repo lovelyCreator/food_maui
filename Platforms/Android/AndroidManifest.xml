@@ -10,7 +10,12 @@
 			</intent-filter>
 		</activity>
 		<!-- Add receiver for notification broadcasts -->
-		<receiver android:name="LocalNotificationDemo.Platforms.Android.NotificationReceiver" android:exported="false" />
+		<receiver android:name="LocalNotificationDemo.Platforms.Android.NotificationReceiver" android:exported="false">
+			<intent-filter>
+				<action android:name="com.business.foodmaui.ACCEPT_ACTION" />
+				<action android:name="com.business.foodmaui.DECLINE_ACTION" />
+			</intent-filter>
+		</receiver>
 	</application>
 	<!-- Existing permissions -->
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
