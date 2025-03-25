@@ -33,10 +33,13 @@ namespace LocalNotificationDemo.Platforms.Android
                     {
                         // Extract order ID from the message
                         var match = Regex.Match(message, @"Reference # (\d+)");
-                        int orderId = match.Success ? int.Parse(match.Groups[1].Value) : 0000;
-
-                        var orderCheckService = new OrderCheckService();
-                        orderCheckService.AcceptOrder(orderId).Wait();
+                        if (match.Success) {
+                            int orderId = int.Parse(match.Groups[1].Value);
+                            var orderCheckService = new OrderCheckService();
+                            orderCheckService.AcceptOrder(orderId).Wait();
+                        } else {
+                            Console.WriteLine("No Order Number!!!");
+                        }
                     }
                     catch (Exception ex)
                     {

@@ -62,7 +62,7 @@ namespace Food_maui.Services
                     else
                     {
                         _noOrderCount++;
-                        if (_noOrderCount % 2 == 0)
+                        if (_noOrderCount % 4 == 0)
                         {
                             var notificationSubject = jsonResponse["newBusinessOrder"][0]["notificationSubject"].ToString();
                             Console.WriteLine("No new order detected.");

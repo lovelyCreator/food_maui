@@ -165,11 +165,11 @@
                             TextColor="White" 
                             Margin="0,20,0,0"
                             Clicked="OnTestNotificationClicked" /> -->
-                        <Button 
+                        <!-- <Button 
                             Text="Test Popup Notification" 
                             BackgroundColor="#E91E63" 
                             TextColor="White" 
-                            Clicked="OnTestPopupNotificationClicked" />
+                            Clicked="OnTestPopupNotificationClicked" /> -->
                     </VerticalStackLayout>
 
                     <!-- Footer -->
