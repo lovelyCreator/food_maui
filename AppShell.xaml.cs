@@ -8,6 +8,7 @@ namespace Food_maui
     public partial class AppShell : Shell
     {
         private OrderCheckService _orderCheckService;
+        private PendingOrderCheckService _pendingOrderCheckService;
 
         public AppShell()
         {
@@ -25,6 +26,7 @@ namespace Food_maui
             };
 
             _orderCheckService = new OrderCheckService();
+            _pendingOrderCheckService = new PendingOrderCheckService();
         }
 
         public static async Task DisplaySnackbarAsync(string message)

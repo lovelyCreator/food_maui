@@ -492,3 +492,17 @@ D:\Project\mobile\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\resiz
 D:\Project\mobile\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\resizetizer\r\hd_business_orders.scale-100.jpg
 D:\Project\mobile\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\resizetizer\r\home_icon.scale-100.png
 D:\Project\mobile\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\resizetizer\r\search.scale-100.ico
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Food_maui.csproj.AssemblyReference.cache
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\mauiimage.inputs
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\mauifont.inputs
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\mauisplash.inputs
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\mauimanifest.stamp
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Platforms\Windows\App.g.i.cs
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Platforms\Windows\App.g.cs
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Platforms\Windows\App.xaml
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Pages\MainPage.xaml
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Platforms\Windows\App.xbf
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Pages\MainPage.xbf
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Food_maui.dll
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\refint\Food_maui.dll
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\obj\Debug\net9.0-windows10.0.19041.0\win10-x64\Food_maui.pdb

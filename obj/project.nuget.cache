@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "FyLd2Sl3Fyc=",
+  "dgSpecHash": "obY0sHspS/I=",
   "success": true,
-  "projectFilePath": "D:\\Project\\mobile\\Food_maui_basic\\Food_maui\\Food_maui.csproj",
+  "projectFilePath": "D:\\Project\\mobile\\Foodmaui\\Food_maui_basic\\Food_maui\\Food_maui.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\communitytoolkit.maui\\11.1.0\\communitytoolkit.maui.11.1.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\communitytoolkit.maui.core\\11.1.0\\communitytoolkit.maui.core.11.1.0.nupkg.sha512",
@@ -138,6 +138,10 @@
     "C:\\Users\\Admin\\.nuget\\packages\\xamarin.kotlinx.coroutines.core.jvm\\1.9.0.2\\xamarin.kotlinx.coroutines.core.jvm.1.9.0.2.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\xamarin.kotlinx.serialization.core\\1.7.3.2\\xamarin.kotlinx.serialization.core.1.7.3.2.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\xamarin.kotlinx.serialization.core.jvm\\1.7.3.2\\xamarin.kotlinx.serialization.core.jvm.1.7.3.2.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\9.0.3\\microsoft.netcore.app.runtime.win-x64.9.0.3.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\9.0.3\\microsoft.windowsdesktop.app.runtime.win-x64.9.0.3.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\9.0.3\\microsoft.aspnetcore.app.runtime.win-x64.9.0.3.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.netcore.app.crossgen2.win-x64\\9.0.3\\microsoft.netcore.app.crossgen2.win-x64.9.0.3.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.57\\microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512"
   ],
   "logs": []

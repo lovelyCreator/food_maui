@@ -22,6 +22,9 @@
         <member name="P:Food_maui.PageModels.LoginPageModel.HorizontalLength">
             <inheritdoc cref="F:Food_maui.PageModels.LoginPageModel._horizontalLength"/>
         </member>
+        <member name="P:Food_maui.PageModels.LoginPageModel.IsLoading">
+            <inheritdoc cref="F:Food_maui.PageModels.LoginPageModel._isLoading"/>
+        </member>
         <member name="F:Food_maui.PageModels.LoginPageModel.signInCommand">
             <summary>The backing field for <see cref="P:Food_maui.PageModels.LoginPageModel.SignInCommand"/>.</summary>
         </member>
@@ -69,6 +72,9 @@
         <member name="P:Food_maui.PageModels.MainPageModel.Orders">
             <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._orders"/>
         </member>
+        <member name="P:Food_maui.PageModels.MainPageModel.EditDatas">
+            <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._editDatas"/>
+        </member>
         <member name="P:Food_maui.PageModels.MainPageModel.IsPictureVisible">
             <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._isPictureVisible"/>
         </member>
@@ -105,6 +111,28 @@
         <member name="P:Food_maui.PageModels.MainPageModel.SelectedOrder">
             <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._selectedOrder"/>
         </member>
+        <member name="P:Food_maui.PageModels.MainPageModel.InitialEditDatas">
+            <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._initialEditDatas"/>
+        </member>
+        <member name="P:Food_maui.PageModels.MainPageModel.IsEditDataFounded">
+            <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._isEditDataFounded"/>
+        </member>
+        <member name="P:Food_maui.PageModels.MainPageModel.IsRestaurant">
+            <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._isRestaurant"/>
+        </member>
+        <member name="P:Food_maui.PageModels.MainPageModel.SalesEditDatas">
+            <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._salesEditDatas"/>
+        </member>
+        <member name="M:Food_maui.PageModels.MainPageModel.OnSelectedDeliveryStatusChanged(System.String)">
+            <summary>Executes the logic for when <see cref="P:Food_maui.PageModels.MainPageModel.SelectedDeliveryStatus"/> just changed.</summary>
+            <param name="value">The new property value that was set.</param>
+            <remarks>This method is invoked right after the value of <see cref="P:Food_maui.PageModels.MainPageModel.SelectedDeliveryStatus"/> is changed.</remarks>
+        </member>
+        <member name="M:Food_maui.PageModels.MainPageModel.OnIsRestaurantChanged(System.Boolean)">
+            <summary>Executes the logic for when <see cref="P:Food_maui.PageModels.MainPageModel.IsRestaurant"/> just changed.</summary>
+            <param name="value">The new property value that was set.</param>
+            <remarks>This method is invoked right after the value of <see cref="P:Food_maui.PageModels.MainPageModel.IsRestaurant"/> is changed.</remarks>
+        </member>
         <member name="F:Food_maui.PageModels.MainPageModel.navigatedToCommand">
             <summary>The backing field for <see cref="P:Food_maui.PageModels.MainPageModel.NavigatedToCommand"/>.</summary>
         </member>
@@ -133,7 +161,7 @@
             <summary>The backing field for <see cref="P:Food_maui.PageModels.MainPageModel.ViewEditOrderCommand"/>.</summary>
         </member>
         <member name="P:Food_maui.PageModels.MainPageModel.ViewEditOrderCommand">
-            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:Food_maui.PageModels.MainPageModel.ViewEditOrder(Food_maui.Models.OrderData)"/>.</summary>
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:Food_maui.PageModels.MainPageModel.ViewEditOrder(Food_maui.Models.OrderData)"/>.</summary>
         </member>
         <member name="F:Food_maui.PageModels.MainPageModel.saveOrderCommand">
             <summary>The backing field for <see cref="P:Food_maui.PageModels.MainPageModel.SaveOrderCommand"/>.</summary>
@@ -320,6 +348,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.HorizontalLength">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "HorizontalLength" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsLoading">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsLoading" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Today">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Today" generated properties.</summary>
         </member>
@@ -337,6 +368,9 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Orders">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Orders" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.EditDatas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "EditDatas" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsPictureVisible">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsPictureVisible" generated properties.</summary>
@@ -365,14 +399,23 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.FilteredOrders">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "FilteredOrders" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsLoading">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsLoading" generated properties.</summary>
-        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsModalVisible">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsModalVisible" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.SelectedOrder">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "SelectedOrder" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.InitialEditDatas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "InitialEditDatas" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsEditDataFounded">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsEditDataFounded" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsRestaurant">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsRestaurant" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.SalesEditDatas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "SalesEditDatas" generated properties.</summary>
         </member>
         <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs">
             <summary>
@@ -392,6 +435,9 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.HorizontalLength">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "HorizontalLength" generated properties.</summary>
         </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsLoading">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsLoading" generated properties.</summary>
+        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Today">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Today" generated properties.</summary>
         </member>
@@ -409,6 +455,9 @@
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Orders">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Orders" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.EditDatas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "EditDatas" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsPictureVisible">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsPictureVisible" generated properties.</summary>
@@ -437,14 +486,23 @@
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.FilteredOrders">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "FilteredOrders" generated properties.</summary>
         </member>
-        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsLoading">
-            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsLoading" generated properties.</summary>
-        </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsModalVisible">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsModalVisible" generated properties.</summary>
         </member>
         <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.SelectedOrder">
             <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "SelectedOrder" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.InitialEditDatas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "InitialEditDatas" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsEditDataFounded">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsEditDataFounded" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsRestaurant">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsRestaurant" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.SalesEditDatas">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "SalesEditDatas" generated properties.</summary>
         </member>
     </members>
 </doc>

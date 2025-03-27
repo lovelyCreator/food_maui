@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls;
+using Food_maui.Converters;
 
 namespace Food_maui
 {
@@ -6,16 +7,24 @@ namespace Food_maui
     {
         public App()
         {
-            InitializeComponent();
+                InitializeComponent();
         }
 
-        public static IAuthenticationService? AuthenticationService { get; internal set; }
-        public static IModalErrorHandler? ErrorHandler { get; internal set; }
-        public static UserMetadataService UserMetadataService { get; internal set; }
+        public static IAuthenticationService? AuthenticationService { get; internal set; } = null;
+        public static IModalErrorHandler? ErrorHandler { get; internal set; } = null;
+        public static UserMetadataService UserMetadataService { get; internal set; } = new UserMetadataService();
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            try
+            {
+                return new Window(new AppShell());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating window: {ex}");
+                throw;
+            }
         }
     }
 }

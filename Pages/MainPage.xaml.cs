@@ -9,6 +9,8 @@ using Microsoft.Maui.Controls;
 using System;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.ComponentModel;
+using System.Linq;
 
 namespace Food_maui.Pages;
 
@@ -19,30 +21,50 @@ public partial class MainPage : ContentPage
 
     public MainPage(MainPageModel model, UserMetadataService userMetadataService)
     {
-        InitializeComponent();
-        BindingContext = model;
-        _userMetadataService = userMetadataService;
+        try
+        {
+            InitializeComponent();
+            if (model == null) throw new ArgumentNullException(nameof(model), "MainPageModel cannot be null.");
+            if (userMetadataService == null) throw new ArgumentNullException(nameof(userMetadataService), "UserMetadataService cannot be null.");
 
-        // Subscribe to property changed event to log Orders property
-        model.PropertyChanged += Model_PropertyChanged;
+            BindingContext = model;
+            _userMetadataService = userMetadataService;
+
+            // Subscribe to property changed event to log Orders property
+            model.PropertyChanged += Model_PropertyChanged;
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in MainPage constructor: {ex}");
+            throw;
+        }
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
 
-        // Access user metadata
-        if (!string.IsNullOrEmpty(_userMetadataService.UserID))
+        try
         {
-            Console.WriteLine($"UserName from service: {_userMetadataService.UserID}");
-        }
-        else
-        {
-            Console.WriteLine("UserName not found in service.");
-        }
+            // Access user metadata
+            if (!string.IsNullOrEmpty(_userMetadataService?.UserID))
+            {
+                Console.WriteLine($"UserName from service: {_userMetadataService.UserID}");
+            }
+            else
+            {
+                Console.WriteLine("UserName not found in service.");
+            }
 
-        // Fetch orders with status "All" and no salesOrderID
-        ((MainPageModel)BindingContext).FetchOrders();
+            // Fetch orders with status "All" and no salesOrderID
+            ((MainPageModel)BindingContext)?.FetchOrders();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in OnAppearing: {ex.Message}");
+            throw;
+        }
     }
 
     private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -100,8 +122,6 @@ public partial class MainPage : ContentPage
         var orderData = button?.BindingContext as OrderData;
         if (orderData != null)
         {
-            // Handle the view/edit logic here
-            // For example, you can call a method in the ViewModel
             var viewModel = BindingContext as MainPageModel;
             viewModel?.ViewEditOrderCommand.Execute(orderData);
         }
@@ -141,10 +161,39 @@ public partial class MainPage : ContentPage
 
     private void OnInitButtonClicked(object sender, EventArgs e)
     {
+        Console.WriteLine("Init button clicked.");
         var viewModel = BindingContext as MainPageModel;
         if (viewModel != null)
         {
             viewModel.InitOrderCommand.Execute(null);
+        }
+    }
+
+    private void OnItemQtyChanged(object sender, TextChangedEventArgs e)
+    {
+        if (sender is Entry entry && entry.BindingContext is EditData editData)
+        {
+            if (double.TryParse(entry.Text, out double newQty))
+            {
+                editData.itemQty = newQty;
+
+                // Notify changes to the SalesEditDatas collection
+                var mainPageModel = BindingContext as MainPageModel;
+                if (mainPageModel != null)
+                {
+                    var updatedItem = mainPageModel.SalesEditDatas.salesOrderItemData
+                        .FirstOrDefault(item => item.rowNumber == editData.rowNumber);
+                    if (updatedItem != null)
+                    {
+                        updatedItem.itemQty = newQty;
+                        updatedItem.checkoutTotal = updatedItem.originalPrice * newQty;
+
+                        // Log the updated SalesEditDatas to the console
+                        var salesEditDatasJson = JsonSerializer.Serialize(mainPageModel.SalesEditDatas, new JsonSerializerOptions { WriteIndented = true });
+                        Console.WriteLine($"Updated SalesEditDatas: {salesEditDatasJson}");
+                    }
+                }
+            }
         }
     }
 }

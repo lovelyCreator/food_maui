@@ -1,0 +1,4 @@
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\publish\com.business.foodmaui-Signed.aab
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\publish\com.business.foodmaui.aab
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\publish\com.business.foodmaui-Signed.apk
+D:\Project\mobile\Foodmaui\Food_maui_basic\Food_maui\publish\_Microsoft.Android.Resource.Designer.dll

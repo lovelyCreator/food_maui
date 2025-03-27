@@ -4,6 +4,7 @@
              xmlns:pageModels="clr-namespace:Food_maui.PageModels"             
              xmlns:models="clr-namespace:Food_maui.Models"
              xmlns:controls="clr-namespace:Food_maui.Pages.Controls"
+             xmlns:converters="clr-namespace:Food_maui.Converters"
              xmlns:pullToRefresh="clr-namespace:Syncfusion.Maui.Toolkit.PullToRefresh;assembly=Syncfusion.Maui.Toolkit"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Food_maui.Pages.MainPage"
@@ -130,8 +131,8 @@
                                             </Border>
                                             
                                             <!-- Customer Info -->
-                                            <Label Grid.Row="2" Grid.Column="0" Text="Customer:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
-                                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding customerName}" FontSize="Small" VerticalOptions="Center" Margin="5,5,0,0" />
+                                            <Label Grid.Row="2" Grid.Column="0" Text="OrderType:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding orderType}" FontSize="Small" VerticalOptions="Center" Margin="5,5,0,0" />
                                             
                                             
                                             <!-- Customer Info -->
@@ -211,74 +212,59 @@
                     <Grid RowDefinitions="Auto, *, Auto">
                         <Label Grid.Row="0" Text="Edit Order" FontSize="Large" HorizontalOptions="Center"></Label>
                         <ScrollView Grid.Row="1">
-                            <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                            <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">                         
+                                <CollectionView  ItemsSource="{Binding SalesEditDatas.salesOrderItemData}" IsVisible="{Binding IsEditDataFounded}"
+                                       Margin="10" SelectionMode="Single">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="models:EditData">
+                                            <Frame Margin="0,5" Padding="10" BorderColor="#CCCCCC" CornerRadius="5" VerticalOptions="Center" HasShadow="True">
+                                                <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" VerticalOptions="Center">
+                                                    <!-- Item Desc -->
+                                                    <Label Grid.Row="0" Grid.Column="0" Text="Item Desc:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" />
+                                                    <Entry Grid.Row="0" Grid.Column="1" Text="{Binding itemName}" IsEnabled="False" />
+                                                    <!-- <Label Grid.Row="0" Grid.Column="1" Text="{Binding tP_StItemNameatus}" FontSize="Small" VerticalOptions="Center" Margin="5,0,0,0" /> -->
+                                                    
+                                                    <!-- Instructions -->
+                                                    <Label Grid.Row="1" Grid.Column="0" Text="Instructions:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                                    <Entry Grid.Row="1" Grid.Column="1" Text="{Binding instructions}" IsEnabled="False" />
+                                                    
+                                                    <!-- Status -->
+                                                    <Label Grid.Row="2" Grid.Column="0" Text="Status:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                                    <Picker Grid.Row="2" Grid.Column="1" ItemsSource="{Binding DeliveryStatuses}" SelectedItem="{Binding itemStatus}" />
+                                                    
+                                                    <!-- ItemTotal -->
+                                                    <Label Grid.Row="3" Grid.Column="0" Text="Item Total:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                                    <Entry Grid.Row="3" Grid.Column="1" Text="{Binding ItemTotal}" IsEnabled="False" />
+                                                    
+                                                    <!-- AddOnDesc -->
+                                                    <Label Grid.Row="4" Grid.Column="0" Text="Status:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                                    <Entry Grid.Row="4" Grid.Column="1" Text="{Binding addOnDesc}" IsEnabled="False" />
+                                                    
+                                                    <!-- AddOnTotal -->
+                                                    <Label Grid.Row="5" Grid.Column="0" Text="AddOn Total:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                                    <Entry Grid.Row="5" Grid.Column="1" Text="{Binding AddOnTotal}" IsEnabled="False" />
 
-                                <Label Grid.Row="0" Grid.Column="0" Text="Order ID:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="0" Grid.Column="1" Text="{Binding SelectedOrder.salesOrderID}" IsEnabled="False" />
+                                                    <!--CheckoutQty/Wt -->
+                                                    <Label Grid.Row="6" Grid.Column="0" Text="Checkout Qty/Wt:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                                    <Entry Grid.Row="6" Grid.Column="1" Text="{Binding itemQty}" BackgroundColor="Yellow" TextChanged="OnItemQtyChanged" />
+                                                    
+                                                    <!-- CheckoutTotal -->
+                                                    <Label Grid.Row="7" Grid.Column="0" Text="Checkout Total:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                                    <Entry Grid.Row="7" Grid.Column="1" 
+                                                           Text="{Binding checkoutTotal}" 
+                                                           IsEnabled="{Binding IsRestaurantant}" 
+                                                           BackgroundColor="{Binding IsRestaurantant, Converter={StaticResource BooleanToColorConverter}}" />
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
 
-                                <Label Grid.Row="1" Grid.Column="0" Text="Restaurant:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="1" Grid.Column="1" Text="{Binding SelectedOrder.restaurant}" />
-
-                                <Label Grid.Row="2" Grid.Column="0" Text="Customer Name:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="2" Grid.Column="1" Text="{Binding SelectedOrder.customerName}" />
-
-                                <Label Grid.Row="3" Grid.Column="0" Text="Delivery Status:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Picker Grid.Row="3" Grid.Column="1" ItemsSource="{Binding DeliveryStatuses}" SelectedItem="{Binding SelectedOrder.delivery_Status}" />
-
-                                <Label Grid.Row="4" Grid.Column="0" Text="Date Order:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="4" Grid.Column="1" Text="{Binding SelectedOrder.dateOrder}" />
-
-                                <Label Grid.Row="5" Grid.Column="0" Text="Total Amount:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="5" Grid.Column="1" Text="{Binding SelectedOrder.invoiceAmount}" />
-
-                                <Label Grid.Row="6" Grid.Column="0" Text="Order Items:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="6" Grid.Column="1" Text="{Binding SelectedOrder.orderItems}" />
-
-                                <Label Grid.Row="7" Grid.Column="0" Text="Order Type:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="7" Grid.Column="1" Text="{Binding SelectedOrder.orderType}" />
-
-                                <Label Grid.Row="8" Grid.Column="0" Text="Driver Name:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="8" Grid.Column="1" Text="{Binding SelectedOrder.driverName}" />
-
-                                <Label Grid.Row="9" Grid.Column="0" Text="Destination Address:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="9" Grid.Column="1" Text="{Binding SelectedOrder.destinationAddress}" />
-
-                                <Label Grid.Row="10" Grid.Column="0" Text="Schedule Pick Up Time:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="10" Grid.Column="1" Text="{Binding SelectedOrder.schedulePickUpTime}" />
-
-                                <Label Grid.Row="11" Grid.Column="0" Text="Original Invoice Amount:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="11" Grid.Column="1" Text="{Binding SelectedOrder.originalInvoiceAmount}" />
-
-                                <Label Grid.Row="12" Grid.Column="0" Text="Original Tax:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="12" Grid.Column="1" Text="{Binding SelectedOrder.originalTax}" />
-
-                                <Label Grid.Row="13" Grid.Column="0" Text="Week Day:" FontAttributes="Bold" VerticalOptions="Center" />
-                                <Entry Grid.Row="13" Grid.Column="1" Text="{Binding SelectedOrder.week_Day}" />
                             </Grid>
                         </ScrollView>
                         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
                             <Button Text="Save" WidthRequest="100" Command="{Binding SaveOrderCommand}" />
-                            <Button Text="Init" WidthRequest="100" Command="{Binding InitOrderCommand}" />
+                            <Button Text="Init" WidthRequest="100" Clicked="OnInitButtonClicked" />
                         </StackLayout>
                     </Grid>
                 </Frame>

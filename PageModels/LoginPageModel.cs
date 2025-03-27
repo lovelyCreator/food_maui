@@ -35,6 +35,9 @@ namespace Food_maui.PageModels
         [ObservableProperty]
         private double _horizontalLength;
 
+        [ObservableProperty]
+        private bool _isLoading;
+
         public LoginPageModel(IAuthenticationService authenticationService, IModalErrorHandler errorHandler, UserMetadataService userMetadataService)
         {
             _authenticationService = authenticationService;
@@ -138,6 +141,7 @@ namespace Food_maui.PageModels
 
                 try
                 {
+                    IsLoading = true;
                     using var client = new HttpClient();
                     var response = await client.PostAsync("http://99.89.32.196/api/Buisness/BuisnessLogin", content);
 
@@ -216,6 +220,10 @@ namespace Food_maui.PageModels
                 {
                     System.Console.WriteLine($"Exception: {ex.Message}");
                     await HandleErrorSafely("An unexpected error occurred.");
+                }
+                finally
+                {
+                    IsLoading = false;
                 }
             }
             catch (Exception ex)

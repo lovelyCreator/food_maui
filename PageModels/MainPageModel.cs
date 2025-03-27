@@ -1,6 +1,10 @@
+using System.ComponentModel;
 using System.Globalization;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Windows.Input;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Food_maui.Models;
@@ -43,6 +47,9 @@ namespace Food_maui.PageModels
         private List<OrderData> _orders;
 
         [ObservableProperty]
+        private List<EditData> _editDatas;
+
+        [ObservableProperty]
         private bool _isPictureVisible;
 
         [ObservableProperty]
@@ -71,6 +78,26 @@ namespace Food_maui.PageModels
 
         [ObservableProperty]
         private bool _isLoading;
+        
+        
+        public MainPageModel()
+        {
+            IsRestaurantant = false;
+        }
+        private bool _isRestaurantant;
+
+        public bool IsRestaurantant
+        {
+            get => _isRestaurantant;
+            set
+            {
+                if (_isRestaurantant != value)
+                {
+                    _isRestaurantant = value;
+                    OnPropertyChanged(nameof(IsRestaurantant)); // Notify the UI about the change
+                }
+            }
+        }
 
         [ObservableProperty]
         private bool _isModalVisible;
@@ -78,6 +105,17 @@ namespace Food_maui.PageModels
         [ObservableProperty]
         private OrderData _selectedOrder;
 
+        [ObservableProperty]
+        private EditDataResponse _initialEditDatas;
+
+        [ObservableProperty]
+        private bool _isEditDataFounded;
+
+        [ObservableProperty]
+        private bool _isRestaurant;
+
+        [ObservableProperty]
+        private EditDataResponse _salesEditDatas;
         private OrderData _initialOrder;
 
         // Define and initialize the test_orders list
@@ -288,46 +326,98 @@ namespace Food_maui.PageModels
         }
 
         [RelayCommand]
-        private void ViewEditOrder(OrderData order)
+
+        private async Task ViewEditOrder(OrderData order)
         {
             Console.WriteLine("ViewEditOrder command executed"); // Debug log
-            SelectedOrder = new OrderData
+            Console.WriteLine($"Order Type: {order.orderType}"); // Log the order type
+
+            IsRestaurantant = false; // Reset the value initially
+
+            try
             {
-                salesOrderID = order.salesOrderID,
-                restaurant = order.restaurant,
-                customerName = order.customerName,
-                delivery_Status = order.delivery_Status,
-                dateOrder = order.dateOrder,
-                // Copy other properties as needed
-                invoiceAmount = order.invoiceAmount,
-                orderItems = order.orderItems,
-                driverName = order.driverName,
-                orderType = order.orderType,
-                destinationAddress = order.destinationAddress,
-                schedulePickUpTime = order.schedulePickUpTime,
-                originalInvoiceAmount = order.originalInvoiceAmount,
-                originalTax = order.originalTax,
-                week_Day = order.week_Day
-            };
-            _initialOrder = new OrderData
+                IsLoading = true;
+                Console.WriteLine("Fetch Orders------------>");
+                var httpClient = new HttpClient();
+                var requestUri = "http://99.89.32.196/api/Buisness/BusinessEditOrder";
+                var requestData = new
+                {
+                    SalesOrderID = order.salesOrderID
+                };
+
+                var response = await httpClient.PostAsJsonAsync(requestUri, requestData);
+                response.EnsureSuccessStatusCode();
+                Console.WriteLine("Response------------>");
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine("Response Content------------>");
+                var orders = JsonSerializer.Deserialize<EditDataResponse>(responseContent);
+                if (orders != null && orders.salesOrderItemData.Any())
+                {                     
+                    IsModalVisible = true;                   
+                    IsEditDataFounded = true;
+                    EditDatas = orders.salesOrderItemData
+                        .Select(item =>
+                        {
+                            item.IsRestaurantant = IsRestaurantant; // Embed the value
+                            return item;
+                        })
+                        .ToList();
+
+                    // Update _isRestaurant based on order type
+                    IsRestaurant = order.orderType?.Equals("Restaurant", StringComparison.OrdinalIgnoreCase) ?? false;
+                    IsRestaurantant = !IsRestaurant; // Set the value based on IsRestaurant
+                    OnPropertyChanged(nameof(IsRestaurantant));
+                    Console.WriteLine($"IsRestaurant: {IsRestaurant}, IsRestaurantant: {IsRestaurantant}");
+
+                    // Deep copy the initial data
+                    InitialEditDatas = new EditDataResponse
+                    {
+                        salesOrderItemData = orders.salesOrderItemData
+                            .Select(item => new EditData
+                            {
+                                rowNumber = item.rowNumber,
+                                itemName = item.itemName,
+                                instructions = item.instructions,
+                                itemStatus = item.itemStatus,
+                                salesOrderItemID = item.salesOrderItemID,
+                                salesOrderID = item.salesOrderID,
+                                addOnDesc = item.addOnDesc,
+                                originalPrice = item.originalPrice,
+                                originalAddOnPrice = item.originalAddOnPrice,
+                                itemQty = item.itemQty,
+                                checkoutTotal = item.checkoutTotal,
+                                IsRestaurantant = IsRestaurantant // Embed the value
+                            }).ToList(),
+                        IsRestaurant = !IsRestaurant
+                    };
+
+                    // Assign SalesEditDatas
+                    SalesEditDatas = new EditDataResponse
+                    {
+                        salesOrderItemData = orders.salesOrderItemData,
+                        IsRestaurant = !IsRestaurant
+                    };
+
+                    var ordersJson = JsonSerializer.Serialize(InitialEditDatas, new JsonSerializerOptions { WriteIndented = true });
+                    Console.WriteLine($"InitialEditDatas set to: {ordersJson}");
+                }
+                else
+                {
+                    IsEditDataFounded = false;
+                    IsModalVisible = false;
+                    var toast = Toast.Make("Cannot Load Data", ToastDuration.Short, 14);
+                    await toast.Show();
+                }
+            }
+            catch (Exception ex)
             {
-                salesOrderID = order.salesOrderID,
-                restaurant = order.restaurant,
-                customerName = order.customerName,
-                delivery_Status = order.delivery_Status,
-                dateOrder = order.dateOrder,
-                // Copy other properties as needed
-                invoiceAmount = order.invoiceAmount,
-                orderItems = order.orderItems,
-                driverName = order.driverName,
-                orderType = order.orderType,
-                destinationAddress = order.destinationAddress,
-                schedulePickUpTime = order.schedulePickUpTime,
-                originalInvoiceAmount = order.originalInvoiceAmount,
-                originalTax = order.originalTax,
-                week_Day = order.week_Day
-            };
-            IsModalVisible = true;
+                Console.WriteLine($"Error fetching orders: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
         }
 
         [RelayCommand]
@@ -341,25 +431,37 @@ namespace Food_maui.PageModels
         [RelayCommand]
         private void InitOrder()
         {
-            // Reset the order details to the initial state
-            SelectedOrder = new OrderData
+            Console.WriteLine("InitOrder command executed"); // Debug log
+
+            if (InitialEditDatas != null && InitialEditDatas.salesOrderItemData != null)
             {
-                salesOrderID = _initialOrder.salesOrderID,
-                restaurant = _initialOrder.restaurant,
-                customerName = _initialOrder.customerName,
-                delivery_Status = _initialOrder.delivery_Status,
-                dateOrder = _initialOrder.dateOrder,
-                // Reset other properties as needed
-                invoiceAmount = _initialOrder.invoiceAmount,
-                orderItems = _initialOrder.orderItems,
-                driverName = _initialOrder.driverName,
-                orderType = _initialOrder.orderType,
-                destinationAddress = _initialOrder.destinationAddress,
-                schedulePickUpTime = _initialOrder.schedulePickUpTime,
-                originalInvoiceAmount = _initialOrder.originalInvoiceAmount,
-                originalTax = _initialOrder.originalTax,
-                week_Day = _initialOrder.week_Day
-            };
+                // Reset SalesEditDatas to the initial values
+                SalesEditDatas = new EditDataResponse
+                {
+                    salesOrderItemData = InitialEditDatas.salesOrderItemData
+                        .Select(item => new EditData
+                        {
+                            rowNumber = item.rowNumber,
+                            itemName = item.itemName,
+                            instructions = item.instructions,
+                            itemStatus = item.itemStatus,
+                            salesOrderItemID = item.salesOrderItemID,
+                            salesOrderID = item.salesOrderID,
+                            addOnDesc = item.addOnDesc,
+                            originalPrice = item.originalPrice,
+                            originalAddOnPrice = item.originalAddOnPrice,
+                            itemQty = item.itemQty,
+                            checkoutTotal = item.checkoutTotal,
+                            IsRestaurantant = item.IsRestaurantant
+                        }).ToList(),
+                    IsRestaurant = InitialEditDatas.IsRestaurant
+                };
+
+                // Notify UI about the changes
+                OnPropertyChanged(nameof(SalesEditDatas));
+                Console.WriteLine($"SalesEditDatas reset to initial values: {JsonSerializer.Serialize(SalesEditDatas, new JsonSerializerOptions { WriteIndented = true })}");
+                Console.WriteLine($"SalesEditDatas reset to initial values: {JsonSerializer.Serialize(InitialEditDatas, new JsonSerializerOptions { WriteIndented = true })}");
+            }
         }
 
 #if ANDROID
@@ -490,5 +592,20 @@ namespace Food_maui.PageModels
         {
             // await _notificationService.FetchAndShowNotificationsAsync();
         }
+        public bool CanEditCheckoutTotal => IsRestaurant && SelectedDeliveryStatus == "Pending";
+
+        partial void OnIsRestaurantChanged(bool value)
+        {
+            Console.WriteLine($"IsRestaurant changed to: {value}");
+    Console.WriteLine($"CanEditCheckoutTotal: {CanEditCheckoutTotal}");
+            OnPropertyChanged(nameof(CanEditCheckoutTotal));
+        }
+
+        partial void OnSelectedDeliveryStatusChanged(string value)
+        {    Console.WriteLine($"SelectedDeliveryStatus changed to: {value}");
+    Console.WriteLine($"CanEditCheckoutTotal: {CanEditCheckoutTotal}");
+            OnPropertyChanged(nameof(CanEditCheckoutTotal));
+        }
+
     }
 }

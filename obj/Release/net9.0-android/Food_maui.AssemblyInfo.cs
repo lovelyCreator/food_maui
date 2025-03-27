@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Food_maui")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+89acd46ffeb200dca4ed27b16c895601d6b39002")]
 [assembly: System.Reflection.AssemblyProductAttribute("Food_maui")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Food_maui")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
