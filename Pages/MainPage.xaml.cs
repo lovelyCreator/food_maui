@@ -115,7 +115,7 @@ public partial class MainPage : ContentPage
                     "Canceled" => "Canceled",
                     "In" => "In Process",
                     "Picked" => "Picked Up",
-                    _ => "All"
+                    _ => "Pending"
                 };
                 viewModel.SearchCommand.Execute(null);
             }
@@ -135,13 +135,13 @@ public partial class MainPage : ContentPage
 
     private void UpdateButtonBorders(string selectedStatus)
     {
-        foreach (var child in StatusButtonsContainer.Children)
-        {
-            if (child is Button button)
-            {
-                button.BorderWidth = button.Text.Split(' ')[0] == selectedStatus ? 2 : 0;
-            }
-        }
+        // foreach (var child in StatusButtonsContainer.Children)
+        // {
+        //     if (child is Button button)
+        //     {
+        //         button.BorderWidth = button.Text.Split(' ')[0] == selectedStatus ? 2 : 0;
+        //     }
+        // }
     }
 
     private void OnSearchButtonClicked(object sender, EventArgs e)

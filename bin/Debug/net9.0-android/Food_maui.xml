@@ -53,6 +53,7 @@
             <inheritdoc/>
             <inheritdoc/>
             <inheritdoc/>
+            <inheritdoc/>
         </member>
         <member name="P:Food_maui.PageModels.MainPageModel.Today">
             <inheritdoc cref="F:Food_maui.PageModels.MainPageModel._today"/>
@@ -168,6 +169,12 @@
         </member>
         <member name="P:Food_maui.PageModels.MainPageModel.SaveOrderCommand">
             <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:Food_maui.PageModels.MainPageModel.SaveOrder"/>.</summary>
+        </member>
+        <member name="F:Food_maui.PageModels.MainPageModel.closeModalCommand">
+            <summary>The backing field for <see cref="P:Food_maui.PageModels.MainPageModel.CloseModalCommand"/>.</summary>
+        </member>
+        <member name="P:Food_maui.PageModels.MainPageModel.CloseModalCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:Food_maui.PageModels.MainPageModel.CloseModal"/>.</summary>
         </member>
         <member name="F:Food_maui.PageModels.MainPageModel.initOrderCommand">
             <summary>The backing field for <see cref="P:Food_maui.PageModels.MainPageModel.InitOrderCommand"/>.</summary>

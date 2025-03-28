@@ -32,7 +32,7 @@ namespace Food_maui.PageModels
         private string _today = DateTime.Now.ToString("dddd, MMM d");
 
         [ObservableProperty]
-        private string _selectedDeliveryStatus = "All";
+        private string _selectedDeliveryStatus = "Pending";
 
         [ObservableProperty]
         private string _searchText;
@@ -207,9 +207,21 @@ namespace Food_maui.PageModels
             await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
         }
 
-        public void OnDeliveryStatusChanged()
+        public async void OnDeliveryStatusChanged()
         {
-            FilterOrders();
+            try
+            {
+                IsLoading = true; // Start loading
+                await Task.Run(() => FilterOrders()); // Run FilterOrders in a separate thread if it's a heavy operation
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in OnDeliveryStatusChanged: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false; // Stop loading
+            }
         }
 
         private void FilterOrders()
@@ -423,6 +435,14 @@ namespace Food_maui.PageModels
 
         [RelayCommand]
         private void SaveOrder()
+        {
+            // Save the updated order details
+            // You can add logic to update the order in the list or send it to the server
+            IsModalVisible = false;
+        }
+        
+        [RelayCommand]
+        private void CloseModal()
         {
             // Save the updated order details
             // You can add logic to update the order in the list or send it to the server

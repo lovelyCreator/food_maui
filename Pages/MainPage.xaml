@@ -27,7 +27,7 @@
                             <!-- Bottom Shadow -->
                             <BoxView HeightRequest="2" VerticalOptions="End" HorizontalOptions="Fill" BackgroundColor="#CCCCCC" />
                         </Grid>
-                        <Grid ColumnDefinitions="*,Auto,*" Padding="0, 10">
+                        <!-- <Grid ColumnDefinitions="*,Auto,*" Padding="0, 10">
                             <HorizontalStackLayout HorizontalOptions="End" Grid.Column="1" Spacing="5">
                                 <Button 
                                     ImageSource="home_icon.png" 
@@ -51,7 +51,7 @@
                                     FontSize="Default" 
                                     ContentLayout="Left,0" />
                             </HorizontalStackLayout>
-                        </Grid>
+                        </Grid> -->
                         <Label x:Name="BusinessNameLabel"
                                HorizontalOptions="Center"
                                Padding="10"
@@ -75,7 +75,7 @@
                                 <ImageButton Padding="10" BackgroundColor="#2196F3" Source="search.ico" WidthRequest="20" HeightRequest="20" Command="{Binding SearchCommand}" Clicked="OnSearchButtonClicked"/>
                             </HorizontalStackLayout>
                         </VerticalStackLayout>
-                        <ScrollView Orientation="Horizontal" Padding="10">
+                        <!-- <ScrollView Orientation="Horizontal" Padding="10">
                             <HorizontalStackLayout x:Name="StatusButtonsContainer" Spacing="5" Margin="0,5">
                                 <Button Text="{Binding TotalNumber, StringFormat='All ({0})'}" BackgroundColor="{Binding TotalButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="2"/>
                                 <Button Text="{Binding NewNumber, StringFormat='New ({0})'}" BackgroundColor="{Binding NewButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
@@ -85,7 +85,7 @@
                                 <Button Text="{Binding CanceledNumber, StringFormat='Canceled ({0})'}" BackgroundColor="{Binding CanceledButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
                                 <Button Text="{Binding ScheduledNumber, StringFormat='Scheduled ({0})'}" BackgroundColor="{Binding ScheduledButtonColor}" TextColor="White" Clicked="OnStatusButtonClicked" BorderWidth="0"/>
                             </HorizontalStackLayout>
-                        </ScrollView>
+                        </ScrollView> -->
                     </VerticalStackLayout>
 
                     <!-- Main Content (Image) -->
@@ -121,30 +121,25 @@
                                             <Label Grid.Row="0" Grid.Column="1" Text="{Binding salesOrderID}" FontSize="Small" VerticalOptions="Center" Margin="5,0,0,0" />
                                             
                                             <!-- Status with color coding -->
-                                            <Label Grid.Row="1" Grid.Column="0" Text="Status:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
-                                            <!-- <Border Grid.Row="1" Grid.Column="1" Stroke="Transparent" StrokeThickness="0" 
-                                                    BackgroundColor="{Binding delivery_Status, Converter={StaticResource StatusToColorConverter}}"
-                                                    Padding="5,2" HorizontalOptions="Start" Margin="5,5,0,0">
-                                                <Label Text="{Binding delivery_Status}" TextColor="White" FontSize="Small" />
-                                            </Border> -->
+                                            <!-- <Label Grid.Row="1" Grid.Column="0" Text="Status:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
                                             <Border Grid.Row="1" Grid.Column="1" Stroke="Transparent" StrokeThickness="0" 
                                                     BackgroundColor="Green"
                                                     Padding="5,2" HorizontalOptions="Start" Margin="5,5,0,0">
                                                 <Label Text="{Binding delivery_Status}" TextColor="Black" FontSize="Small" />
-                                            </Border>
+                                            </Border> -->
                                             
                                             <!-- Customer Info -->
-                                            <Label Grid.Row="2" Grid.Column="0" Text="OrderType:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
-                                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding orderType}" FontSize="Small" VerticalOptions="Center" Margin="5,5,0,0" />
+                                            <Label Grid.Row="1" Grid.Column="0" Text="OrderType:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding orderType}" FontSize="Small" VerticalOptions="Center" Margin="5,5,0,0" />
                                             
                                             
                                             <!-- Customer Info -->
-                                            <Label Grid.Row="3" Grid.Column="0" Text="Date:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
-                                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding dateOrder}" FontSize="Small" VerticalOptions="Center" Margin="5,5,0,0" />
+                                            <Label Grid.Row="2" Grid.Column="0" Text="Date:" FontSize="Small" FontAttributes="Bold" VerticalOptions="Center" Margin="0,5,0,0" />
+                                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding dateOrder}" FontSize="Small" VerticalOptions="Center" Margin="5,5,0,0" />
                                             
                                             <!-- Action Button -->
-                                            <Button Grid.Row="1" Grid.Column="2" Grid.RowSpan="3" 
-                                                    Text="View/Edit" 
+                                            <Button Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" 
+                                                    Text="{Binding ActionButtonText}" 
                                                     BackgroundColor="#2196F3" 
                                                     TextColor="White"
                                                     CornerRadius="5"
@@ -211,9 +206,12 @@
         <!-- Modal for View/Edit -->
         <ContentView IsVisible="{Binding IsModalVisible}" BackgroundColor="#80000000" ZIndex="1001">
             <Grid VerticalOptions="Center" HorizontalOptions="Center">
-                <Frame VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="350" HeightRequest="500" Padding="20" BackgroundColor="White" CornerRadius="10">
+                <Frame VerticalOptions="Fill" HorizontalOptions="Center" WidthRequest="350" HeightRequest="600" Padding="20" BackgroundColor="White" CornerRadius="10">
                     <Grid RowDefinitions="Auto, *, Auto">
-                        <Label Grid.Row="0" Text="Edit Order" FontSize="Large" HorizontalOptions="Center"></Label>
+                        <!-- Close Button -->
+                        <Button Grid.Row="0" Text="✕" FontSize="Medium" BackgroundColor="Transparent" TextColor="Black" 
+                                HorizontalOptions="End" VerticalOptions="Start" Command="{Binding CloseModalCommand}" />
+                        <Label Grid.Row="0" Text="Edit Order" FontSize="Large" VerticalOptions="Center" HorizontalOptions="Center"></Label>
                         <ScrollView Grid.Row="1">
                             <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">                         
                                 <CollectionView  ItemsSource="{Binding SalesEditDatas.salesOrderItemData}" IsVisible="{Binding IsEditDataFounded}"

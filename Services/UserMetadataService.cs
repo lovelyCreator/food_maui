@@ -19,6 +19,7 @@ namespace Food_maui.Services
         public string? Longitude { get; set; }
         public bool RememberMe { get; set; }
         public string? Password { get; set; }
+        public DateTime? LastLoginTime { get; set; }
 
         public UserMetadataService()
         {
@@ -58,23 +59,23 @@ namespace Food_maui.Services
         {
             try
             {
-                var data = new
+                var data = new RememberMeData
                 {
-                    UserID,
-                    Password,
-                    RememberMe
+                    UserID = UserID,
+                    Password = Password,
+                    RememberMe = RememberMe,
+                    LastLoginTime = DateTime.UtcNow // Save the current UTC time
                 };
                 string json = JsonSerializer.Serialize(data);
                 await SecureStorage.SetAsync("UserMetadata", json);
-                System.Console.WriteLine("Save Async--------------->" + UserID + " " + Password + " " + RememberMe);
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine($"Error saving RememberMe data: {ex.Message}");
+                Console.WriteLine($"Error saving RememberMe data: {ex.Message}");
             }
         }
 
-        public async Task LoadRememberMeDataAsync()
+        public async Task<bool> LoadRememberMeDataAsync()
         {
             try
             {
@@ -87,14 +88,21 @@ namespace Food_maui.Services
                         UserID = data.UserID;
                         Password = data.Password;
                         RememberMe = data.RememberMe;
+                        LastLoginTime = data.LastLoginTime;
+
+                        // Check if the session is still valid (e.g., within 5 hours)
+                        if (LastLoginTime.HasValue && (DateTime.UtcNow - LastLoginTime.Value).TotalHours <= 5)
+                        {
+                            return true; // Session is valid
+                        }
                     }
-                    System.Console.WriteLine("Load Async--------------->" + UserID + " " + Password + " " + RememberMe);
                 }
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine($"Error loading RememberMe data: {ex.Message}");
+                Console.WriteLine($"Error loading RememberMe data: {ex.Message}");
             }
+            return false; // Session is invalid or data is missing
         }
 
         private class RememberMeData
@@ -102,6 +110,7 @@ namespace Food_maui.Services
             public string? UserID { get; set; }
             public string? Password { get; set; }
             public bool RememberMe { get; set; }
+            public DateTime? LastLoginTime { get; set; } // Add timestamp for session validation
         }
     }
 }

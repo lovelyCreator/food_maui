@@ -29,6 +29,11 @@ namespace Food_maui.Models
         public decimal? originalTax { get; set; }
         public bool? displayCompleteOrderBtn { get; set; }
         public string? week_Day { get; set; }
+
+        public string ActionButtonText => delivery_Status?.Equals("Canceled", StringComparison.OrdinalIgnoreCase) == true
+            ? "View/Print"
+            : "View/Edit";
+        
     }
 
     public class OrderDataResponse
