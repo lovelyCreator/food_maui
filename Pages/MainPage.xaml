@@ -52,8 +52,11 @@
                                     ContentLayout="Left,0" />
                             </HorizontalStackLayout>
                         </Grid>
-                        <Label Text="Business Name: Pakwan Restaurant Hayward - Account ID: 6"
-                               HorizontalOptions="Center" Padding="10" FontSize="Caption" Margin="0,5"/>
+                        <Label x:Name="BusinessNameLabel"
+                               HorizontalOptions="Center"
+                               Padding="10"
+                               FontSize="Caption"
+                               Margin="0,5" />
                         <VerticalStackLayout Padding="10">
                             <Label Text="Deliver Status"/>
                             <Picker 

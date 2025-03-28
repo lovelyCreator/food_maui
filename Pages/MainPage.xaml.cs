@@ -11,6 +11,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.ComponentModel;
 using System.Linq;
+using Microsoft.Maui.Storage; // Add this for Preferences
 
 namespace Food_maui.Pages;
 
@@ -18,6 +19,8 @@ public partial class MainPage : ContentPage
 {
     private readonly UserMetadataService _userMetadataService;
     public string? UserName { get; set; }
+
+    public int? accountID {get; set;}
 
     public MainPage(MainPageModel model, UserMetadataService userMetadataService)
     {
@@ -47,14 +50,17 @@ public partial class MainPage : ContentPage
 
         try
         {
-            // Access user metadata
-            if (!string.IsNullOrEmpty(_userMetadataService?.UserID))
+            // Fetch the latest restaurant and locationID from UserMetadataService
+            var restaurant = _userMetadataService?.Restaurant;
+            var locationID = _userMetadataService?.LocationID;
+
+            if (!string.IsNullOrEmpty(restaurant) && locationID.HasValue)
             {
-                Console.WriteLine($"UserName from service: {_userMetadataService.UserID}");
+                BusinessNameLabel.Text = $"Business Name: {restaurant} - Account ID: {locationID}";
             }
             else
             {
-                Console.WriteLine("UserName not found in service.");
+                BusinessNameLabel.Text = "Business Name: Not Available - Account ID: Not Available";
             }
 
             // Fetch orders with status "All" and no salesOrderID

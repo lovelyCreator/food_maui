@@ -315,6 +315,7 @@ namespace Food_maui.PageModels
             finally
             {
                 IsLoading = false;
+
             }
         }
 

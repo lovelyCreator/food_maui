@@ -5,6 +5,7 @@ namespace Food_maui.Services
     public class UserMetadataService
     {
         public string? UserName { get; set; }
+        public int? LocationID { get; set; }
         public string? UserID { get; set; }
         public string? RoleName { get; set; }
         public string? Restaurant { get; set; }
@@ -24,6 +25,7 @@ namespace Food_maui.Services
             // Initialize properties with default values
             UserName = "User";
             UserID = "id";
+            LocationID = 1;
             RoleName = "role";
             Restaurant = "restaurant";
             RestaurantType = "Halal";
@@ -58,8 +60,8 @@ namespace Food_maui.Services
             {
                 var data = new
                 {
-                    UserName,
                     UserID,
+                    Password,
                     RememberMe
                 };
                 string json = JsonSerializer.Serialize(data);

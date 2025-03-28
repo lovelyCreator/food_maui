@@ -73,11 +73,11 @@ namespace Food_maui.PageModels
             });
         }
 
-        public LoginPageModel(IAuthenticationService? authenticationService, IModalErrorHandler? errorHandler)
-        {
-            _authenticationService = authenticationService;
-            _errorHandler = errorHandler;
-        }
+        // public LoginPageModel(IAuthenticationService? authenticationService, IModalErrorHandler? errorHandler)
+        // {
+        //     _authenticationService = authenticationService;
+        //     _errorHandler = errorHandler;
+        // }
 
         private async Task Toasty(string message)
         {
@@ -157,6 +157,8 @@ namespace Food_maui.PageModels
 
                             if (userData != null && !string.IsNullOrEmpty(userData.UserID))
                             {
+
+                                    Console.WriteLine($"UserMetadataService: {_userMetadataService}");
                                 // Save all response data to UserMetadataService
                                 if (_userMetadataService != null)
                                 {
@@ -174,6 +176,7 @@ namespace Food_maui.PageModels
                                     _userMetadataService.Latitude = userData.Latitude;
                                     _userMetadataService.Longitude = userData.Longitude;
                                     _userMetadataService.Password = Password;
+                                    _userMetadataService.LocationID = userData.LocationID;
 
                                     // Save RememberMe state and credentials if enabled
                                     _userMetadataService.RememberMe = RememberMe;
@@ -181,13 +184,15 @@ namespace Food_maui.PageModels
 
                                     // Save user data persistently
                                     await _userMetadataService.SaveUserDataAsync();
+                                    var ordersJson = JsonSerializer.Serialize(_userMetadataService, new JsonSerializerOptions { WriteIndented = true }); 
+                                    Console.WriteLine($"UserMetadataService: {ordersJson}");
                                 }
 
                                 await Toasty("Login successful!");
 
                                 if (Shell.Current != null)
                                 {
-                                    await Shell.Current.GoToAsync($"//main?userName={userData.UserName}");
+                                    await Shell.Current.GoToAsync($"//main?userName={userData.UserName}&accountID={userData.LocationID}");
                                 }
                                 else
                                 {
@@ -306,6 +311,7 @@ namespace Food_maui.PageModels
                                     _userMetadataService.HdBusinessRulesChargeType = userData.HdBusinessRulesChargeType;
                                     _userMetadataService.Latitude = userData.Latitude;
                                     _userMetadataService.Longitude = userData.Longitude;
+                                    _userMetadataService.LocationID = userData.LocationID;
 
                                     // Save user data persistently
                                     await _userMetadataService.SaveUserDataAsync();
@@ -497,35 +503,35 @@ namespace Food_maui.PageModels
             public string IdToken { get; set; }
         }
 
-        public class LoginResponse
-        {
-            public List<UserData>? UsersData { get; set; }
-            public List<ErrorData>? ErrorData { get; set; } // Add ErrorData property
-        }
+        // public class LoginResponse
+        // {
+        //     public List<UserData>? UsersData { get; set; }
+        //     public List<ErrorData>? ErrorData { get; set; } // Add ErrorData property
+        // }
 
-        public class ErrorData
-        {
-            public string? ErrorSubject { get; set; }
-            public string? ErrorValue { get; set; }
-        }
+        // public class ErrorData
+        // {
+        //     public string? ErrorSubject { get; set; }
+        //     public string? ErrorValue { get; set; }
+        // }
 
-        public class UserData
-        {
-            public string? UserName { get; set; }
-            public string? Password { get; set; }
-            public string? LoginBy { get; set; }
-            public int? LocationID { get; set; }
-            public string? UserID { get; set; }
-            public string? RestaurantType { get; set; }
-            public string? Restaurant { get; set; }
-            public string? BusinessOwner { get; set; }
-            public string? RoleName { get; set; }
-            public string? TaxPercentage { get; set; }
-            public string? Zip { get; set; }
-            public string? DeliveryManagedBy { get; set; }
-            public string? HdBusinessRulesChargeType { get; set; }
-            public string? Latitude { get; set; }
-            public string? Longitude { get; set; }
-        }
+        // public class UserData
+        // {
+        //     public string? UserName { get; set; }
+        //     public string? Password { get; set; }
+        //     public string? LoginBy { get; set; }
+        //     public int? LocationID { get; set; }
+        //     public string? UserID { get; set; }
+        //     public string? RestaurantType { get; set; }
+        //     public string? Restaurant { get; set; }
+        //     public string? BusinessOwner { get; set; }
+        //     public string? RoleName { get; set; }
+        //     public string? TaxPercentage { get; set; }
+        //     public string? Zip { get; set; }
+        //     public string? DeliveryManagedBy { get; set; }
+        //     public string? HdBusinessRulesChargeType { get; set; }
+        //     public string? Latitude { get; set; }
+        //     public string? Longitude { get; set; }
+        // }
     }
 }
